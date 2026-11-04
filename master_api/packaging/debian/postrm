@@ -1,0 +1,17 @@
+#!/bin/bash
+set -e
+
+# Remove nginx site config symlink
+rm -f /etc/nginx/sites-enabled/cims
+
+# Reload systemd
+systemctl daemon-reload
+
+# Reload nginx if running
+if systemctl is-active --quiet nginx; then
+    systemctl reload nginx
+fi
+
+echo "CIMS has been removed."
+echo "Note: /etc/cims/cims.env and /opt/cims/uploads/ have been preserved."
+echo "To fully remove, run: sudo rm -rf /etc/cims /opt/cims"

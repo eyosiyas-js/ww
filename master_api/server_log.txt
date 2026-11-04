@@ -1,0 +1,546 @@
+﻿python : INFO:     
+Started server process 
+[4924]
+At line:1 char:1
++ python -m uvicorn 
+app.main:app --host 
+0.0.0.0 --port 8001 
+2>&1 | Out- ...
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~
+    + CategoryInfo     
+         : 
+NotSpecified: (INFO:   
+      Started server 
+pro    cess 
+[4924]:String) [],     
+RemoteException
+    + 
+FullyQualifiedErrorId  
+   : NativeCommandError
+ 
+INFO:     Waiting for 
+application startup.
+INFO:app.main:Successfu
+lly connected to the 
+database!
+INFO:     Application 
+startup complete.
+INFO:     Uvicorn 
+running on 
+http://0.0.0.0:8001 
+(Press CTRL+C to quit)
+INFO:     127.0.0.1:55937 - "POST /api/v1/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53880 - "POST /api/v1/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61265 - "POST /api/v1/admin/forms HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58840 - "GET /api/v1/admin/forms/active HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57705 - "POST /api/v1/cases/ HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in 
+ASGI application
+Traceback (most recent 
+call last):
+  File "C:\Users\User\A
+ppData\Roaming\Python\P
+ython313\site-packages\
+uvicorn\protocols\http\
+httptools_impl.py", 
+line 416, in run_asgi
+    result = await 
+app(  # type: ignore[fu
+nc-returns-value]
+             ^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^
+        self.scope, 
+self.receive, self.send
+        ^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\User\A
+ppData\Roaming\Python\P
+ython313\site-packages\
+uvicorn\middleware\prox
+y_headers.py", line 
+60, in __call__
+    return await 
+self.app(scope, 
+receive, send)
+           ^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^
+^
+  File "C:\Users\User\A
+ppData\Roaming\Python\P
+ython313\site-packages\
+fastapi\applications.py
+", line 1135, in 
+__call__
+    await super().__cal
+l__(scope, receive, 
+send)
+  File "C:\Users\User\A
+ppData\Roaming\Python\P
+ython313\site-packages\
+starlette\applications.
+py", line 107, in 
+__call__
+    await self.middlewa
+re_stack(scope, 
+receive, send)
+  File "C:\Users\User\A
+ppData\Roaming\Python\P
+ython313\site-packages\
+starlette\middleware\er
+rors.py", line 186, in 
+__call__
+    raise exc
+  File "C:\Users\User\A
+ppData\Roaming\Python\P
+ython313\site-packages\
+starlette\middleware\er
+rors.py", line 164, in 
+__call__
+    await 
+self.app(scope, 
+receive, _send)
+  File "C:\Users\User\A
+ppData\Roaming\Python\P
+ython313\site-packages\
+starlette\middleware\co
+rs.py", line 85, in 
+__call__
+    await 
+self.app(scope, 
+receive, send)
+  File "C:\Users\User\A
+ppData\Roaming\Python\P
+ython313\site-packages\
+starlette\middleware\ex
+ceptions.py", line 63, 
+in __call__
+    await wrap_app_hand
+ling_exceptions(self.ap
+p, conn)(scope, 
+receive, send)
+  File "C:\Users\User\A
+ppData\Roaming\Python\P
+ython313\site-packages\
+starlette\_exception_ha
+ndler.py", line 53, in 
+wrapped_app
+    raise exc
+  File "C:\Users\User\A
+ppData\Roaming\Python\P
+ython313\site-packages\
+starlette\_exception_ha
+ndler.py", line 42, in 
+wrapped_app
+    await app(scope, 
+receive, sender)
+  File "C:\Users\User\A
+ppData\Roaming\Python\P
+ython313\site-packages\
+fastapi\middleware\asyn
+cexitstack.py", line 
+18, in __call__
+    await 
+self.app(scope, 
+receive, send)
+  File "C:\Users\User\A
+ppData\Roaming\Python\P
+ython313\site-packages\
+starlette\routing.py", 
+line 716, in __call__
+    await self.middlewa
+re_stack(scope, 
+receive, send)
+  File "C:\Users\User\A
+ppData\Roaming\Python\P
+ython313\site-packages\
+starlette\routing.py", 
+line 736, in app
+    await 
+route.handle(scope, 
+receive, send)
+  File "C:\Users\User\A
+ppData\Roaming\Python\P
+ython313\site-packages\
+starlette\routing.py", 
+line 290, in handle
+    await 
+self.app(scope, 
+receive, send)
+  File "C:\Users\User\A
+ppData\Roaming\Python\P
+ython313\site-packages\
+fastapi\routing.py", 
+line 115, in app
+    await wrap_app_hand
+ling_exceptions(app, 
+request)(scope, 
+receive, send)
+  File "C:\Users\User\A
+ppData\Roaming\Python\P
+ython313\site-packages\
+starlette\_exception_ha
+ndler.py", line 53, in 
+wrapped_app
+    raise exc
+  File "C:\Users\User\A
+ppData\Roaming\Python\P
+ython313\site-packages\
+starlette\_exception_ha
+ndler.py", line 42, in 
+wrapped_app
+    await app(scope, 
+receive, sender)
+  File "C:\Users\User\A
+ppData\Roaming\Python\P
+ython313\site-packages\
+fastapi\routing.py", 
+line 101, in app
+    response = await 
+f(request)
+               
+^^^^^^^^^^^^^^^^
+  File "C:\Users\User\A
+ppData\Roaming\Python\P
+ython313\site-packages\
+fastapi\routing.py", 
+line 377, in app
+    content = await 
+serialize_response(
+              ^^^^^^^^^
+^^^^^^^^^^^^^^^^
+    ...<10 lines>...
+    )
+    ^
+  File "C:\Users\User\A
+ppData\Roaming\Python\P
+ython313\site-packages\
+fastapi\routing.py", 
+line 215, in 
+serialize_response
+    raise ResponseValid
+ationError(
+    ...<3 lines>...
+    )
+fastapi.exceptions.Resp
+onseValidationError: 1 
+validation error:
+  {'type': 'missing', 
+'loc': ('response', 
+'organizationId'), 
+'msg': 'Field 
+required', 'input': 
+{'id': 'case-c1ca6c06-0
+5c6-4e73-b3a4-947dc4e2d
+626', 'title': 
+'Speeding Vehicle in 
+Sector 7', 
+'description': None, 
+'detectionId': None, 
+'assignedTo': 'Officer 
+Sarah Williams', 
+'createdBy': 
+'usr-super-admin', 
+'instructions': 
+'Follow and report 
+location', 'status': 
+'open', 'priority': 
+'high', 
+'formTemplateId': 'form
+-6b0a32ce-5547-4e90-b28
+9-3a604466a8a7', 
+'dynamicData': {'field_
+vehicle_plate': 
+'XYZ-9876', 'field_inci
+dent_detail': 'Vehicle 
+was traveling at 
+120km/h in a 60km/h 
+zone.'}, 
+'resolutionStatus': 
+None, 
+'resolutionReason': 
+None, 
+'resolutionPhotos': 
+None, 'createdAt': '202
+6-03-26T06:56:58.978626
+', 'updatedAt': '2026-0
+3-26T06:56:58.978628', 
+'assignedToName': 
+None, 'createdByName': 
+'Global 
+Administrator', 
+'resolvedDynamicData': 
+[{'label': 'Vehicle 
+Plate', 'value': 
+'XYZ-9876'}, {'label': 
+'Incident Detail', 
+'value': 'Vehicle was 
+traveling at 120km/h 
+in a 60km/h zone.'}]}}
+
+  File "C:\Users\User\D
+ocuments\CIMS\Barsi\bac
+kend1\backend\app\api\v
+1\endpoints\cases.py", 
+line 77, in create_case
+    POST /api/v1/cases/
+INFO:     127.0.0.1:52887 - "POST /api/v1/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61378 - "POST /api/v1/admin/forms HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62780 - "GET /api/v1/admin/forms/active HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63490 - "POST /api/v1/cases/ HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in 
+ASGI application
+Traceback (most recent 
+call last):
+  File "C:\Users\User\A
+ppData\Roaming\Python\P
+ython313\site-packages\
+uvicorn\protocols\http\
+httptools_impl.py", 
+line 416, in run_asgi
+    result = await 
+app(  # type: ignore[fu
+nc-returns-value]
+             ^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^
+        self.scope, 
+self.receive, self.send
+        ^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\User\A
+ppData\Roaming\Python\P
+ython313\site-packages\
+uvicorn\middleware\prox
+y_headers.py", line 
+60, in __call__
+    return await 
+self.app(scope, 
+receive, send)
+           ^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^
+^
+  File "C:\Users\User\A
+ppData\Roaming\Python\P
+ython313\site-packages\
+fastapi\applications.py
+", line 1135, in 
+__call__
+    await super().__cal
+l__(scope, receive, 
+send)
+  File "C:\Users\User\A
+ppData\Roaming\Python\P
+ython313\site-packages\
+starlette\applications.
+py", line 107, in 
+__call__
+    await self.middlewa
+re_stack(scope, 
+receive, send)
+  File "C:\Users\User\A
+ppData\Roaming\Python\P
+ython313\site-packages\
+starlette\middleware\er
+rors.py", line 186, in 
+__call__
+    raise exc
+  File "C:\Users\User\A
+ppData\Roaming\Python\P
+ython313\site-packages\
+starlette\middleware\er
+rors.py", line 164, in 
+__call__
+    await 
+self.app(scope, 
+receive, _send)
+  File "C:\Users\User\A
+ppData\Roaming\Python\P
+ython313\site-packages\
+starlette\middleware\co
+rs.py", line 85, in 
+__call__
+    await 
+self.app(scope, 
+receive, send)
+  File "C:\Users\User\A
+ppData\Roaming\Python\P
+ython313\site-packages\
+starlette\middleware\ex
+ceptions.py", line 63, 
+in __call__
+    await wrap_app_hand
+ling_exceptions(self.ap
+p, conn)(scope, 
+receive, send)
+  File "C:\Users\User\A
+ppData\Roaming\Python\P
+ython313\site-packages\
+starlette\_exception_ha
+ndler.py", line 53, in 
+wrapped_app
+    raise exc
+  File "C:\Users\User\A
+ppData\Roaming\Python\P
+ython313\site-packages\
+starlette\_exception_ha
+ndler.py", line 42, in 
+wrapped_app
+    await app(scope, 
+receive, sender)
+  File "C:\Users\User\A
+ppData\Roaming\Python\P
+ython313\site-packages\
+fastapi\middleware\asyn
+cexitstack.py", line 
+18, in __call__
+    await 
+self.app(scope, 
+receive, send)
+  File "C:\Users\User\A
+ppData\Roaming\Python\P
+ython313\site-packages\
+starlette\routing.py", 
+line 716, in __call__
+    await self.middlewa
+re_stack(scope, 
+receive, send)
+  File "C:\Users\User\A
+ppData\Roaming\Python\P
+ython313\site-packages\
+starlette\routing.py", 
+line 736, in app
+    await 
+route.handle(scope, 
+receive, send)
+  File "C:\Users\User\A
+ppData\Roaming\Python\P
+ython313\site-packages\
+starlette\routing.py", 
+line 290, in handle
+    await 
+self.app(scope, 
+receive, send)
+  File "C:\Users\User\A
+ppData\Roaming\Python\P
+ython313\site-packages\
+fastapi\routing.py", 
+line 115, in app
+    await wrap_app_hand
+ling_exceptions(app, 
+request)(scope, 
+receive, send)
+  File "C:\Users\User\A
+ppData\Roaming\Python\P
+ython313\site-packages\
+starlette\_exception_ha
+ndler.py", line 53, in 
+wrapped_app
+    raise exc
+  File "C:\Users\User\A
+ppData\Roaming\Python\P
+ython313\site-packages\
+starlette\_exception_ha
+ndler.py", line 42, in 
+wrapped_app
+    await app(scope, 
+receive, sender)
+  File "C:\Users\User\A
+ppData\Roaming\Python\P
+ython313\site-packages\
+fastapi\routing.py", 
+line 101, in app
+    response = await 
+f(request)
+               
+^^^^^^^^^^^^^^^^
+  File "C:\Users\User\A
+ppData\Roaming\Python\P
+ython313\site-packages\
+fastapi\routing.py", 
+line 377, in app
+    content = await 
+serialize_response(
+              ^^^^^^^^^
+^^^^^^^^^^^^^^^^
+    ...<10 lines>...
+    )
+    ^
+  File "C:\Users\User\A
+ppData\Roaming\Python\P
+ython313\site-packages\
+fastapi\routing.py", 
+line 215, in 
+serialize_response
+    raise ResponseValid
+ationError(
+    ...<3 lines>...
+    )
+fastapi.exceptions.Resp
+onseValidationError: 1 
+validation error:
+  {'type': 'missing', 
+'loc': ('response', 
+'organizationId'), 
+'msg': 'Field 
+required', 'input': 
+{'id': 'case-e324f8e7-a
+7f5-4078-aaaf-23ec036f7
+ef4', 'title': 
+'Speeding Vehicle in 
+Sector 7', 
+'description': None, 
+'detectionId': None, 
+'assignedTo': 'Officer 
+Sarah Williams', 
+'createdBy': 
+'usr-super-admin', 
+'instructions': 
+'Follow and report 
+location', 'status': 
+'open', 'priority': 
+'high', 
+'formTemplateId': 'form
+-23f311e8-4b1c-47c9-bc3
+8-c2c60e93c2ce', 
+'dynamicData': {'field_
+vehicle_plate': 
+'XYZ-9876', 'field_inci
+dent_detail': 'Vehicle 
+was traveling at 
+120km/h in a 60km/h 
+zone.'}, 
+'resolutionStatus': 
+None, 
+'resolutionReason': 
+None, 
+'resolutionPhotos': 
+None, 'createdAt': '202
+6-03-26T06:57:45.317008
+', 'updatedAt': '2026-0
+3-26T06:57:45.317011', 
+'assignedToName': 
+None, 'createdByName': 
+'Global 
+Administrator', 
+'resolvedDynamicData': 
+[{'label': 'Vehicle 
+Plate', 'value': 
+'XYZ-9876'}, {'label': 
+'Incident Detail', 
+'value': 'Vehicle was 
+traveling at 120km/h 
+in a 60km/h zone.'}]}}
+
+  File "C:\Users\User\D
+ocuments\CIMS\Barsi\bac
+kend1\backend\app\api\v
+1\endpoints\cases.py", 
+line 77, in create_case
+    POST /api/v1/cases/

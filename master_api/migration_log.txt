@@ -1,0 +1,49 @@
+﻿Truncating tables in PostgreSQL...
+  Truncated cameraaccess
+  Truncated notification
+  Truncated detection
+  Truncated camera
+  Truncated formtemplate
+  Truncated user
+  Truncated role
+  Truncated organization
+Migrating table organization...
+  Found 9 rows in SQLite.
+  Successfully migrated 9 rows.
+Migrating table role...
+  Found 13 rows in SQLite.
+  Error migrating role: (psycopg2.errors.ForeignKeyViolation) insert or update on table "role" violates foreign key constraint "role_organization_id_fkey"
+DETAIL:  Key (organization_id)=(org-city-watch) is not present in table "organization".
+
+[SQL: INSERT INTO role (id, name, description, permissions, organization_id, users_count, is_system, created_at, updated_at) VALUES (%(id__0)s, %(name__0)s, %(description__0)s, %(permissions__0)s::JSON, %(organization_id__0)s, %(users_count__0)s, %(is_syst ... 2037 characters tru
+Migrating table user...
+  Found 39 rows in SQLite.
+  Error migrating user: (psycopg2.errors.ForeignKeyViolation) insert or update on table "user" violates foreign key constraint "user_role_id_fkey"
+DETAIL:  Key (role_id)=(role-super-admin) is not present in table "role".
+
+[SQL: INSERT INTO "user" (id, email, hashed_password, full_name, organization_id, role_id, status, created_at, updated_at) VALUES (%(id__0)s, %(email__0)s, %(hashed_password__0)s, %(full_name__0)s, %(organization_id__0)s, %(role_id__0)s, %(status__0)s, %(c ... 6351 characters truncated ... s, %(organi
+Migrating table formtemplate...
+  Found 7 rows in SQLite.
+  Successfully migrated 7 rows.
+Migrating table camera...
+  Found 5 rows in SQLite.
+  Successfully migrated 5 rows.
+Migrating table detection...
+  Found 132 rows in SQLite.
+  Error migrating detection: (psycopg2.errors.ForeignKeyViolation) insert or update on table "detection" violates foreign key constraint "detection_user_id_fkey"
+DETAIL:  Key (user_id)=(usr-org-metro-police-off-6) is not present in table "user".
+
+[SQL: INSERT INTO detection (id, category, name, description, age, location, subcategory, crime_type, image_urls, status, detected_camera_ids, user_id, organization_id, form_template_id, dynamic_data, detection_events, assigned_company_id, handling_status, ... 66055 characters trun
+Migrating table notification...
+  Found 84 rows in SQLite.
+  Error migrating notification: (psycopg2.errors.ForeignKeyViolation) insert or update on table "notification" violates foreign key constraint "notification_user_id_fkey"
+DETAIL:  Key (user_id)=(usr-org-metro-police-off-0) is not present in table "user".
+
+[SQL: INSERT INTO notification (id, type, title, message, read, action_url, user_id, created_at, updated_at) VALUES (%(id__0)s, %(type__0)s, %(title__0)s, %(message__0)s, %(read__0)s, %(action_url__0)s, %(user_id__0)s, %(created_at__0)s, %(updated_at__0)s) ... 12352 character
+Migrating table cameraaccess...
+  Found 16 rows in SQLite.
+  Error migrating cameraaccess: (psycopg2.errors.ForeignKeyViolation) insert or update on table "cameraaccess" violates foreign key constraint "cameraaccess_organization_id_fkey"
+DETAIL:  Key (organization_id)=(org-city-watch) is not present in table "organization".
+
+[SQL: INSERT INTO cameraaccess (id, camera_id, organization_id, created_at, updated_at) VALUES (%(id__0)s, %(camera_id__0)s, %(organization_id__0)s, %(created_at__0)s, %(updated_at__0)s), (%(id__1)s, %(camera_id__1)s, %(organization_id__1)s, %(created_at__ ... 125
+Resetting sequences...

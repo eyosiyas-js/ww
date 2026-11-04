@@ -1,0 +1,21 @@
+﻿Found 5 duplicate camera names:
+- 'Elevator Bank Cam': 3 instances
+  ID: cam-org-metro-police-4, Location: Elevator Bank, Org ID: org-metro-police
+  ID: cam-org-city-watch-4, Location: Elevator Bank, Org ID: org-city-watch
+  ID: cam-org-campus-sec-4, Location: Elevator Bank, Org ID: org-campus-sec
+- 'Main Lobby Cam': 3 instances
+  ID: cam-org-metro-police-1, Location: Main Lobby, Org ID: org-metro-police
+  ID: cam-org-city-watch-1, Location: Main Lobby, Org ID: org-city-watch
+  ID: cam-org-campus-sec-1, Location: Main Lobby, Org ID: org-campus-sec
+- 'North Gate Cam': 3 instances
+  ID: cam-org-metro-police-0, Location: North Gate, Org ID: org-metro-police
+  ID: cam-org-city-watch-0, Location: North Gate, Org ID: org-city-watch
+  ID: cam-org-campus-sec-0, Location: North Gate, Org ID: org-campus-sec
+- 'Parking A Cam': 3 instances
+  ID: cam-org-metro-police-2, Location: Parking A, Org ID: org-metro-police
+  ID: cam-org-city-watch-2, Location: Parking A, Org ID: org-city-watch
+  ID: cam-org-campus-sec-2, Location: Parking A, Org ID: org-campus-sec
+- 'South Corridor Cam': 3 instances
+  ID: cam-org-metro-police-3, Location: South Corridor, Org ID: org-metro-police
+  ID: cam-org-city-watch-3, Location: South Corridor, Org ID: org-city-watch
+  ID: cam-org-campus-sec-3, Location: South Corridor, Org ID: org-campus-sec

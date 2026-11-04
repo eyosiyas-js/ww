@@ -1,0 +1,32 @@
+[Unit]
+Description=CIMS Backend API Server
+After=network.target postgresql.service
+Requires=postgresql.service
+
+[Service]
+Type=simple
+User=cims
+Group=cims
+WorkingDirectory=/opt/cims
+EnvironmentFile=/etc/cims/cims.env
+ExecStart=/opt/cims/bin/cims-backend
+Restart=always
+RestartSec=5
+
+# Security hardening
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths=/opt/cims/uploads
+
+# Resource limits
+LimitNOFILE=65536
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=cims-backend
+
+[Install]
+WantedBy=multi-user.target

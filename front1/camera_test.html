@@ -1,0 +1,2309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sentinel AI — Live Surveillance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #050810;
+      --surface: #0d1117;
+      --surface2: #161b27;
+      --border: rgba(255, 255, 255, 0.07);
+      --border-hover: rgba(255, 255, 255, 0.15);
+      --brand: #3b82f6;
+      --brand-glow: rgba(59, 130, 246, 0.25);
+      --danger: #ef4444;
+      --danger-glow: rgba(239, 68, 68, 0.25);
+      --success: #10b981;
+      --warning: #f59e0b;
+      --purple: #a855f7;
+      --text: #e2e8f0;
+      --text-muted: #64748b;
+      --text-dim: #334155;
+    }
+
+    html,
+    body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      overflow: hidden;
+    }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+    }
+
+    /* ── GLASS ── */
+    .glass {
+      background: rgba(13, 17, 23, 0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+    }
+
+    .glass-light {
+      background: rgba(22, 27, 39, 0.8);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+    }
+
+    /* ── LOGIN ── */
+    #login-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: radial-gradient(ellipse at 50% 0%, #0f1a2e 0%, #050810 70%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.5s ease;
+    }
+
+    #login-screen.hidden {
+      display: none;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 420px;
+      padding: 48px 40px;
+      background: rgba(13, 17, 23, 0.9);
+      border: 1px solid var(--border-hover);
+      border-radius: 24px;
+      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(59, 130, 246, 0.1);
+    }
+
+    .login-logo {
+      width: 64px;
+      height: 64px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #1d4ed8, #3b82f6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin: 0 auto 24px;
+      box-shadow: 0 8px 32px var(--brand-glow);
+    }
+
+    .login-title {
+      font-size: 26px;
+      font-weight: 800;
+      text-align: center;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+
+    .login-sub {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 13px;
+      margin-bottom: 36px;
+    }
+
+    .field-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+
+    .field-input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 13px 16px;
+      color: var(--text);
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .field-input:focus {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px var(--brand-glow);
+    }
+
+    .field-group {
+      margin-bottom: 20px;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(135deg, #2563eb, #3b82f6);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      box-shadow: 0 8px 24px var(--brand-glow);
+      transition: all 0.2s;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 32px var(--brand-glow);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .login-error {
+      display: none;
+      margin-top: 16px;
+      padding: 12px 16px;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      border-radius: 10px;
+      color: var(--danger);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    /* ── LAYOUT ── */
+    #dashboard {
+      display: none;
+      height: 100vh;
+      flex-direction: column;
+    }
+
+    #dashboard.active {
+      display: flex;
+    }
+
+    /* ── TOPNAV ── */
+    #topnav {
+      height: 60px;
+      flex-shrink: 0;
+      background: rgba(5, 8, 16, 0.95);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      gap: 16px;
+      z-index: 100;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .nav-logo-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #1d4ed8, #3b82f6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .nav-logo-text {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+    }
+
+    .nav-logo-text span {
+      color: var(--brand);
+    }
+
+    .nav-sep {
+      width: 1px;
+      height: 28px;
+      background: var(--border);
+      flex-shrink: 0;
+    }
+
+    .nav-select {
+      flex: 1;
+      max-width: 260px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 12px;
+      color: var(--text);
+      font-size: 13px;
+      font-family: inherit;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .nav-select:focus {
+      border-color: var(--brand);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-icon-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      transition: background 0.2s;
+      position: relative;
+    }
+
+    .nav-icon-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-icon-btn.danger {
+      color: var(--danger);
+    }
+
+    .nav-icon-btn.danger:hover {
+      background: var(--danger-glow);
+    }
+
+    .badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--danger);
+      color: #fff;
+      font-size: 9px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid var(--bg);
+      display: none;
+    }
+
+    .nav-user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+      padding-left: 8px;
+    }
+
+    .nav-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #7c3aed, #a855f7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .nav-user-info {
+      line-height: 1.2;
+    }
+
+    .nav-user-name {
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .nav-user-role {
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* ── MAIN CONTENT ── */
+    #main-content {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+    }
+
+    /* ── CAMERA PANE ── */
+    #camera-pane {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      padding: 16px;
+      gap: 12px;
+    }
+
+    .primary-feed {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      max-height: 80vh;
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+      background: #000;
+      border: 1px solid var(--border);
+      box-shadow: 0 0 60px rgba(59, 130, 246, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .primary-feed img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      transition: opacity 0.5s;
+    }
+
+    .feed-overlay-top {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 16px 20px;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), transparent);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      pointer-events: none;
+    }
+
+    .feed-overlay-bottom {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 16px 20px;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      pointer-events: none;
+    }
+
+    .feed-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--danger);
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: 0.4
+      }
+    }
+
+    .feed-cam-name {
+      font-size: 15px;
+      font-weight: 700;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+    }
+
+    .feed-time {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    #no-signal {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      background: #000;
+    }
+
+    #no-signal .ns-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+      opacity: 0.3;
+    }
+
+    #no-signal h3 {
+      font-size: 16px;
+      font-weight: 700;
+      opacity: 0.4;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    #no-signal p {
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-top: 6px;
+    }
+
+    #feed-spinner {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+    }
+
+    .spinner {
+      width: 36px;
+      height: 36px;
+      border: 3px solid rgba(59, 130, 246, 0.15);
+      border-top-color: var(--brand);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* ── PREVIEW STRIP ── */
+    #preview-strip {
+      display: flex;
+      gap: 10px;
+      flex-shrink: 0;
+      height: 110px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+
+    .preview-thumb {
+      flex-shrink: 0;
+      width: 160px;
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      border: 2px solid transparent;
+      background: #000;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .preview-thumb:hover {
+      transform: translateY(-3px);
+      border-color: rgba(59, 130, 246, 0.5);
+    }
+
+    .preview-thumb.active-cam {
+      border-color: var(--brand);
+      box-shadow: 0 0 16px var(--brand-glow);
+    }
+
+    .preview-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+
+    .preview-thumb:hover img,
+    .preview-thumb.active-cam img {
+      opacity: 1;
+    }
+
+    .preview-label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 6px 8px;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      truncate: ellipsis;
+    }
+
+    .preview-offline {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+
+    /* PTZ Controls */
+    .ptz-overlay {
+      position: absolute;
+      bottom: 70px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(12px);
+      padding: 15px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      z-index: 100;
+      transition: all 0.3s ease;
+    }
+
+    .ptz-dpad {
+      display: grid;
+      grid-template-areas: ". up ." "left . right" ". down .";
+      gap: 5px;
+    }
+
+    .ptz-btn {
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: white;
+      border-radius: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      transition: 0.2s;
+      user-select: none;
+    }
+
+    .ptz-btn:hover {
+      background: var(--brand);
+      border-color: transparent;
+    }
+
+    .ptz-btn:active {
+      transform: scale(0.92);
+      filter: brightness(1.2);
+    }
+
+    .ptz-zoom {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 12px;
+    }
+
+    .preview-offline span {
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--danger);
+      border: 1px solid var(--danger);
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+
+    .preview-thumb.stalled .preview-offline {
+      display: flex;
+    }
+
+    /* ── SIDEBAR ── */
+    #sidebar {
+      width: 340px;
+      flex-shrink: 0;
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .sidebar-tab-bar {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+      background: rgba(5, 8, 16, 0.8);
+    }
+
+    .sidebar-tab {
+      flex: 1;
+      padding: 14px 10px;
+      font-size: 11px;
+      font-weight: 700;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      color: var(--text-muted);
+      border: none;
+      background: none;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .sidebar-tab.active {
+      color: var(--brand);
+      border-bottom-color: var(--brand);
+    }
+
+    .tab-panel {
+      display: none;
+      flex: 1;
+      overflow-y: auto;
+      flex-direction: column;
+    }
+
+    .tab-panel.active {
+      display: flex;
+    }
+
+    /* ── ALERT LOG ── */
+    #alert-log {
+      padding: 12px;
+      gap: 8px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .alert-entry {
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    .alert-entry.type-criminal {
+      border-left: 3px solid var(--danger);
+    }
+
+    .alert-entry.type-missing {
+      border-left: 3px solid var(--brand);
+    }
+
+    .alert-entry.type-weapon {
+      border-left: 3px solid var(--warning);
+    }
+
+    .alert-entry.type-plate {
+      border-left: 3px solid var(--purple);
+    }
+
+    .alert-type {
+      font-size: 9px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .alert-name {
+      font-size: 13px;
+      font-weight: 700;
+      margin: 3px 0;
+    }
+
+    .alert-meta {
+      font-size: 10px;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* ── NOTIFICATIONS ── */
+    #notif-list {
+      padding: 12px;
+      gap: 8px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .notif-entry {
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .notif-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+
+    .notif-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: rgba(59, 130, 246, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .notif-title {
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .notif-msg {
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .notif-time {
+      font-size: 9px;
+      color: var(--text-dim);
+      text-align: right;
+      margin-top: 6px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* ── EMPTY STATE ── */
+    .empty-state {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-dim);
+      text-align: center;
+      padding: 32px;
+      gap: 12px;
+    }
+
+    .empty-state .es-icon {
+      font-size: 36px;
+      opacity: 0.3;
+    }
+
+    .empty-state p {
+      font-size: 12px;
+      font-weight: 600;
+      opacity: 0.5;
+      line-height: 1.6;
+    }
+
+    /* ── LOG HEADER ── */
+    .panel-header {
+      padding: 16px 16px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+
+    .panel-title {
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .panel-clear {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      transition: color 0.2s;
+    }
+
+    .panel-clear:hover {
+      color: var(--text);
+    }
+
+    /* ── MODAL BASE ── */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 8, 16, 0.92);
+      backdrop-filter: blur(12px);
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      display: none;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-box {
+      width: 100%;
+      max-width: 640px;
+      max-height: 90vh;
+      background: var(--surface2);
+      border: 1px solid var(--border-hover);
+      border-radius: 24px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.7);
+    }
+
+    .modal-header {
+      padding: 24px 28px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+
+    .modal-title {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+    }
+
+    .modal-close {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      border: none;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .modal-close:hover {
+      background: var(--danger-glow);
+      color: var(--danger);
+    }
+
+    .modal-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 28px;
+    }
+
+    .modal-footer {
+      padding: 20px 28px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    /* ── FORM ── */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .form-grid .full {
+      grid-column: 1 / -1;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 11px 14px;
+      color: var(--text);
+      font-size: 13px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px var(--brand-glow);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .upload-zone {
+      border: 2px dashed rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      padding: 32px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .upload-zone:hover {
+      border-color: var(--brand);
+      background: rgba(59, 130, 246, 0.05);
+    }
+
+    .upload-zone .uz-icon {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .upload-zone .uz-text {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .upload-zone .uz-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    #photo-thumbs {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .photo-thumb {
+      aspect-ratio: 1;
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 2px solid transparent;
+      opacity: 0.5;
+      transition: all 0.2s;
+    }
+
+    .photo-thumb.selected {
+      border-color: var(--brand);
+      opacity: 1;
+      box-shadow: 0 0 12px var(--brand-glow);
+    }
+
+    .photo-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .btn-sec {
+      padding: 11px 22px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+
+    .btn-sec:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-submit {
+      padding: 11px 28px;
+      border-radius: 10px;
+      border: none;
+      background: linear-gradient(135deg, #2563eb, #3b82f6);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 16px var(--brand-glow);
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px var(--brand-glow);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .form-msg {
+      font-size: 12px;
+      font-weight: 600;
+      flex: 1;
+      display: none;
+    }
+
+    .form-msg.success {
+      color: var(--success);
+    }
+
+    .form-msg.error {
+      color: var(--danger);
+    }
+
+    /* ── RECOGNITION MODAL ── */
+    #recognition-modal {
+      z-index: 600;
+    }
+
+    #recognition-modal .modal-box {
+      max-width: 800px;
+    }
+
+    .recog-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 24px;
+    }
+
+    .recog-img {
+      border-radius: 12px;
+      overflow: hidden;
+      background: #000;
+      aspect-ratio: 4/3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border);
+    }
+
+    .recog-img img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .result-item {
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .result-name {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .result-type {
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-top: 2px;
+    }
+
+    .result-conf {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--brand);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* ── ALERT FLASH ── */
+    .alert-flash {
+      animation: flash 3s ease;
+    }
+
+    @keyframes flash {
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 rgba(239, 68, 68, 0)
+      }
+
+      25%,
+      75% {
+        box-shadow: 0 0 40px rgba(239, 68, 68, 0.6)
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ── LOGIN ── -->
+  <div id="login-screen">
+    <div class="login-card">
+      <div class="login-logo">🛡️</div>
+      <h1 class="login-title">Sentinel AI</h1>
+      <p class="login-sub">Secure Law Enforcement Portal</p>
+      <form id="login-form">
+        <div class="field-group">
+          <label class="field-label">Email Address</label>
+          <input type="email" id="login-email" class="field-input" placeholder="agent@agency.gov" required />
+        </div>
+        <div class="field-group">
+          <label class="field-label">Access Key</label>
+          <input type="password" id="login-password" class="field-input" placeholder="••••••••" required />
+        </div>
+        <button type="submit" id="login-btn" class="btn-primary">Authorize Session</button>
+        <div id="login-error" class="login-error"></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ── DASHBOARD ── -->
+  <div id="dashboard">
+
+    <!-- Top Nav -->
+    <nav id="topnav">
+      <div class="nav-logo">
+        <div class="nav-logo-icon">🛡️</div>
+        <span class="nav-logo-text">Sentinel <span>AI</span></span>
+      </div>
+      <div class="nav-sep"></div>
+
+      <select id="camera-select" class="nav-select">
+        <option value="">Select Camera Feed...</option>
+      </select>
+
+      <div class="nav-actions">
+        <button id="btn-reg-criminal" class="nav-icon-btn danger" title="Register Criminal">🚔</button>
+        <button id="btn-reg-missing" class="nav-icon-btn" title="Register Missing Person"
+          style="color:#3b82f6">🔍</button>
+        <button id="btn-search-photo" class="nav-icon-btn" title="Search by Photo" style="color:#a855f7">📸</button>
+        <button id="btn-video-search" class="nav-icon-btn" title="Deep Video Search" style="color:#f59e0b">📼</button>
+        <button id="btn-camera-mgmt" class="nav-icon-btn" title="Manage Cameras" style="color:var(--brand)">⚙️</button>
+      </div>
+
+      <div style="margin-left:auto; display:flex; align-items:center; gap:10px;">
+        <button id="btn-notif" class="nav-icon-btn" title="Notifications">
+          🔔
+          <span id="notif-badge" class="badge">0</span>
+        </button>
+        <div class="nav-sep"></div>
+        <div class="nav-user">
+          <div class="nav-avatar" id="user-avatar">A</div>
+          <div class="nav-user-info">
+            <div class="nav-user-name" id="user-name">Agent</div>
+            <div class="nav-user-role" id="user-role">Operator</div>
+          </div>
+        </div>
+        <button id="btn-logout" class="nav-icon-btn danger" title="Logout">⏻</button>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div id="main-content">
+
+      <!-- Camera Pane -->
+      <div id="camera-pane">
+        <!-- Primary Feed -->
+        <div class="primary-feed" id="primary-feed">
+          <div id="feed-spinner">
+            <div class="spinner"></div>
+          </div>
+          <div id="no-signal">
+            <div class="ns-icon">📷</div>
+            <h3>No Signal</h3>
+            <p>Select a camera to begin live monitoring</p>
+          </div>
+          <img id="live-img"
+            style="opacity:0; position:absolute; inset:0; width:100%; height:100%; object-fit:contain;">
+
+          <div class="feed-overlay-top">
+            <div class="feed-badge" id="live-badge" style="display:none;">
+              <span class="live-dot"></span> LIVE
+            </div>
+            <span id="feed-cam-name" class="feed-cam-name" style="text-shadow:0 2px 8px rgba(0,0,0,0.8)"></span>
+            <span style="flex:1"></span>
+            <span id="feed-time" class="feed-time"></span>
+          </div>
+
+          <!-- PTZ Controls -->
+          <div id="ptz-controls" class="ptz-overlay" style="display:none;">
+            <div class="ptz-dpad">
+              <button class="ptz-btn" style="grid-area:up" onmousedown="ptz('Up')" onmouseup="ptz('Up', 'stop')"
+                onmouseleave="ptz('Up', 'stop')">▲</button>
+              <button class="ptz-btn" style="grid-area:left" onmousedown="ptz('Left')" onmouseup="ptz('Left', 'stop')"
+                onmouseleave="ptz('Left', 'stop')">◀</button>
+              <button class="ptz-btn" style="grid-area:right" onmousedown="ptz('Right')"
+                onmouseup="ptz('Right', 'stop')" onmouseleave="ptz('Right', 'stop')">▶</button>
+              <button class="ptz-btn" style="grid-area:down" onmousedown="ptz('Down')" onmouseup="ptz('Down', 'stop')"
+                onmouseleave="ptz('Down', 'stop')">▼</button>
+            </div>
+            <div class="ptz-zoom">
+              <button class="ptz-btn" onmousedown="ptz('ZoomTele')" onmouseup="ptz('ZoomTele', 'stop')"
+                onmouseleave="ptz('ZoomTele', 'stop')">➕</button>
+              <button class="ptz-btn" onmousedown="ptz('ZoomWide')" onmouseup="ptz('ZoomWide', 'stop')"
+                onmouseleave="ptz('ZoomWide', 'stop')">➖</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Preview Strip -->
+        <div id="preview-strip"></div>
+      </div>
+
+      <!-- Sidebar -->
+      <div id="sidebar">
+        <div class="sidebar-tab-bar">
+          <button class="sidebar-tab active" data-tab="tab-alerts">⚡ Alerts</button>
+          <button class="sidebar-tab" data-tab="tab-notifs">🔔 Inbox</button>
+        </div>
+
+        <!-- Alerts Tab -->
+        <div class="tab-panel active" id="tab-alerts">
+          <div class="panel-header">
+            <span class="panel-title">Detection Log</span>
+            <button class="panel-clear" id="clear-alerts">Clear</button>
+          </div>
+          <div id="alert-log">
+            <div class="empty-state" id="alert-empty">
+              <div class="es-icon">📡</div>
+              <p>Monitoring active channels.<br>Detections will appear here.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Notifications Tab -->
+        <div class="tab-panel" id="tab-notifs">
+          <div class="panel-header">
+            <span class="panel-title">Notifications</span>
+            <button class="panel-clear" id="clear-notifs">Clear</button>
+          </div>
+          <div id="notif-list">
+            <div class="empty-state" id="notif-empty">
+              <div class="es-icon">🔕</div>
+              <p>No new notifications.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── REGISTER MODAL ── -->
+  <div class="modal-backdrop" id="register-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modal-title">Register Person</h2>
+        <button class="modal-close" id="modal-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="reg-form">
+          <input type="hidden" id="reg-type" value="criminal">
+          <div class="form-grid">
+            <div>
+              <label class="form-label">Full Name *</label>
+              <input type="text" name="name" class="form-input" placeholder="Abebe Kebede" required>
+            </div>
+            <div>
+              <label class="form-label">Father's Name</label>
+              <input type="text" name="father_name" class="form-input" placeholder="Kebede Tesfaye">
+            </div>
+            <div>
+              <label class="form-label">Gender</label>
+              <select name="gender" class="form-select">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label">Date of Birth</label>
+              <input type="date" name="dob" class="form-input">
+            </div>
+            <div class="full">
+              <label class="form-label">Description / Crimes</label>
+              <textarea name="crimes" class="form-textarea" placeholder="Known crimes, warrants, notes..."></textarea>
+            </div>
+            <div class="full">
+              <label class="form-label">Face Photos (min. 5) *</label>
+              <div class="upload-zone" id="upload-zone" onclick="document.getElementById('file-input').click()">
+                <div class="uz-icon">📂</div>
+                <div class="uz-text">Click to upload face photos</div>
+                <div class="uz-sub" id="file-count">At least 5 clear frontal photos required</div>
+              </div>
+              <input type="file" id="file-input" multiple accept="image/*" style="display:none">
+              <div id="photo-thumbs"></div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <span class="form-msg" id="form-msg"></span>
+        <button class="btn-sec" id="modal-cancel">Cancel</button>
+        <button class="btn-submit" id="reg-submit">Register</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── RECOGNITION MODAL ── -->
+  <div class="modal-backdrop" id="recognition-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h2 class="modal-title">Face Recognition Search</h2>
+        <button class="modal-close" id="recog-close">✕</button>
+      </div>
+      <div class="modal-body" id="recog-body">
+        <div class="empty-state" id="recog-empty">
+          <div class="es-icon">🔬</div>
+          <p>Upload a photo to search the criminal database</p>
+        </div>
+        <div id="recog-loading" style="display:none;" class="empty-state">
+          <div class="spinner" style="margin-bottom:16px;"></div>
+          <p>Analyzing biometrics...</p>
+        </div>
+        <div id="recog-result" style="display:none;">
+          <div class="recog-grid">
+            <div>
+              <div class="recog-img"><img id="recog-img" src="" alt=""></div>
+            </div>
+            <div>
+              <div
+                style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:12px;">
+                Identified Subjects</div>
+              <div id="recog-list" style="display:flex;flex-direction:column;gap:8px;"></div>
+              <div id="recog-none" style="display:none;" class="empty-state">
+                <p>No matches found in database</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-sec"
+          onclick="document.getElementById('recognition-modal').classList.remove('open')">Close</button>
+        <button class="btn-submit" onclick="triggerPhotoSearch()">Search Another</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── VIDEO SEARCH MODAL ── -->
+  <div class="modal-backdrop" id="video-search-modal" style="z-index: 800;">
+    <div class="modal-box" style="max-width: 700px;">
+      <div class="modal-header">
+        <h2 class="modal-title">Search Recorded Video</h2>
+        <button class="modal-close" id="video-search-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-grid" style="grid-template-columns: 1fr;">
+          <div class="full">
+            <label class="form-label">Video File Path (On Server)</label>
+            <input type="text" id="vs-path" class="form-input" placeholder="C:\videos\recorded.mp4" required>
+            <p style="font-size:10px; color:var(--text-muted); margin-top:4px;">Enter the absolute path to the large
+              video file stored on the backend server.</p>
+          </div>
+          <div class="full">
+            <label class="form-label">Target Clothing Color</label>
+            <select id="vs-color" class="form-select">
+              <optgroup label="Primary Colors">
+                <option value="Red">Red</option>
+                <option value="Green">Green</option>
+                <option value="Blue">Blue</option>
+                <option value="Yellow">Yellow</option>
+                <option value="White">White</option>
+                <option value="Black">Black</option>
+              </optgroup>
+              <optgroup label="Advanced Gradients">
+                <option value="Navy Blue">Navy Blue</option>
+                <option value="Maroon">Maroon</option>
+                <option value="Mint">Mint</option>
+                <option value="Pink">Pink</option>
+                <option value="Khaki">Khaki</option>
+                <option value="Gray">Gray</option>
+              </optgroup>
+            </select>
+          </div>
+        </div>
+
+        <!-- Status Display -->
+        <div id="vs-status-panel"
+          style="display:none; margin-top: 20px; padding: 15px; border-radius: 12px; background: rgba(59,130,246,0.05); border: 1px solid var(--border);">
+          <div style="display:flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <strong style="font-size: 13px;">Status: <span id="vs-status-text"
+                style="color:var(--brand);">Processing...</span></strong>
+            <span id="vs-matches"
+              style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--warning); font-weight: 700;">0
+              Matches Found</span>
+          </div>
+          <div
+            style="width: 100%; height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px; overflow: hidden; position: relative;">
+            <div id="vs-progress"
+              style="position: absolute; left: 0; width: 30%; height: 100%; background: var(--brand); transition: all 0.3s; animation: pulse 1.5s infinite;">
+            </div>
+          </div>
+        </div>
+
+        <!-- Snapshots Grid -->
+        <div id="vs-snapshots"
+          style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 20px; max-height: 40vh; overflow-y: auto;">
+          <!-- Images injected here -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-sec" id="video-search-cancel">Close</button>
+        <button class="btn-submit" id="vs-start-btn">Start Deep Search</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CAMERA MANAGEMENT MODAL ── -->
+  <div class="modal-backdrop" id="camera-mgmt-modal">
+    <div class="modal-box" style="max-width: 900px;">
+      <div class="modal-header">
+        <h2 class="modal-title">Infrastructure Management</h2>
+        <div style="display:flex; gap:10px;">
+          <button class="btn-submit" id="btn-add-camera" style="padding: 8px 16px;">+ Register Camera</button>
+          <button class="modal-close" id="camera-mgmt-close">✕</button>
+        </div>
+      </div>
+      <div class="modal-body" style="padding: 0;">
+        <div id="camera-list-container">
+          <table style="width:100%; border-collapse: collapse; font-size: 13px;">
+            <thead
+              style="background: rgba(255,255,255,0.03); text-align: left; border-bottom: 1px solid var(--border);">
+              <tr>
+                <th style="padding: 16px 20px; color: var(--text-muted); font-size: 10px; text-transform: uppercase;">ID
+                  / Name</th>
+                <th style="padding: 16px 20px; color: var(--text-muted); font-size: 10px; text-transform: uppercase;">
+                  Network Address</th>
+                <th style="padding: 16px 20px; color: var(--text-muted); font-size: 10px; text-transform: uppercase;">
+                  Location</th>
+                <th style="padding: 16px 20px; color: var(--text-muted); font-size: 10px; text-transform: uppercase;">
+                  Status</th>
+                <th
+                  style="padding: 16px 20px; color: var(--text-muted); font-size: 10px; text-transform: uppercase; text-align: right;">
+                  Actions</th>
+              </tr>
+            </thead>
+            <tbody id="camera-mgmt-list">
+              <!-- Rows injected here -->
+            </tbody>
+          </table>
+          <div id="camera-mgmt-empty" class="empty-state" style="display:none; padding:60px;">
+            <div class="es-icon">📷</div>
+            <p>No cameras found. Register your first camera to begin.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CAMERA FORM MODAL (Add/Edit) ── -->
+  <div class="modal-backdrop" id="camera-form-modal" style="z-index: 700;">
+    <div class="modal-box" style="max-width: 550px;">
+      <div class="modal-header">
+        <h2 class="modal-title" id="cam-form-title">Register New Camera</h2>
+        <button class="modal-close" id="cam-form-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="cam-form">
+          <input type="hidden" id="cam-id">
+          <div class="form-grid">
+            <div class="full">
+              <label class="form-label">Camera Name *</label>
+              <input type="text" id="cam-name" class="form-input" placeholder="e.g. Main Entrance HD" required>
+            </div>
+            <div>
+              <label class="form-label">IP Address *</label>
+              <input type="text" id="cam-ip" class="form-input" placeholder="192.168.1.100" required>
+            </div>
+            <div>
+              <label class="form-label">Brand</label>
+              <select id="cam-brand" class="form-select">
+                <option value="generic">Generic (RTSP)</option>
+                <option value="dahua">Dahua</option>
+                <option value="axis">Axis</option>
+                <option value="hikvision">Hikvision</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label">RTSP Username *</label>
+              <input type="text" id="cam-user" class="form-input" placeholder="admin" required>
+            </div>
+            <div>
+              <label class="form-label">RTSP Password *</label>
+              <input type="password" id="cam-pass" class="form-input" placeholder="••••••••" required>
+            </div>
+            <div>
+              <label class="form-label">Location *</label>
+              <input type="text" id="cam-location" class="form-input" placeholder="Parking Lot" required>
+            </div>
+            <div>
+              <label class="form-label">RTSP Port</label>
+              <input type="number" id="cam-port" class="form-input" value="554">
+            </div>
+            <div>
+              <label class="form-label">Resolution</label>
+              <input type="text" id="cam-res" class="form-input" value="1920x1080">
+            </div>
+            <div>
+              <label class="form-label">Target FPS</label>
+              <input type="number" id="cam-fps" class="form-input" value="15">
+            </div>
+            <div class="full">
+              <label class="form-label">Custom RTSP URL (Optional)</label>
+              <input type="text" id="cam-url" class="form-input" placeholder="rtsp://...">
+              <p style="font-size:10px; color:var(--text-muted); margin-top:4px;">If blank, the system will
+                auto-construct the URL based on brand.</p>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <span id="cam-form-error" style="color:var(--danger); font-size:12px; flex:1;"></span>
+        <button class="btn-sec" id="cam-form-cancel">Cancel</button>
+        <button class="btn-submit" id="cam-form-submit">Save Camera</button>
+      </div>
+    </div>
+  </div>
+
+  <audio id="alert-audio" preload="auto">
+    <source src="https://assets.mixkit.co/active_storage/sfx/2570/2570.wav" type="audio/wav">
+  </audio>
+
+  <script>
+    // ── CONFIG ──
+    const API = 'http://172.27.3.47:8000/api';
+    const API_V1 = 'http://172.27.3.47:8000/api/v1';
+    const WS = 'ws://172.27.3.47:8000/api/cameras/ws';
+
+    // --- Global Controls ---
+    let token = localStorage.getItem('accessToken');
+    let currentCamId = null;
+
+    async function ptz(cmd, action = 'start') {
+      if (!activeCamId) return;
+      try {
+        await fetch(`${API}/cameras/${activeCamId}/ptz?command=${cmd}&action=${action}`, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+      } catch (e) { console.error('PTZ failed', e); }
+    }
+
+    // --- Feed Management ---
+    let currentUser = null;
+    let mainWs = null;
+    let activeCamId = null;
+    let prevWsMap = {};
+    let prevStateMap = {};
+    let alertWs = null;
+    let unread = 0;
+    let regFiles = [];
+    let profileIdx = 0;
+
+    // ── DOM ──
+    const $ = id => document.getElementById(id);
+
+    // ── TABS ──
+    document.querySelectorAll('.sidebar-tab').forEach(btn => {
+      btn.onclick = () => {
+        document.querySelectorAll('.sidebar-tab').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        $(btn.dataset.tab).classList.add('active');
+      };
+    });
+
+    // ── LOGIN ──
+    $('login-form').onsubmit = async e => {
+      e.preventDefault();
+      const btn = $('login-btn');
+      const err = $('login-error');
+      btn.disabled = true;
+      btn.textContent = 'Connecting...';
+      err.style.display = 'none';
+      try {
+        const fd = new URLSearchParams();
+        fd.append('username', $('login-email').value);
+        fd.append('password', $('login-password').value);
+        const res = await fetch(`${API_V1}/auth/login`, {
+          method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: fd
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Access denied');
+        token = data.accessToken;
+        currentUser = data.user;
+        localStorage.setItem('sentinel_token', token);
+        launchDashboard();
+      } catch (ex) {
+        err.textContent = ex.message;
+        err.style.display = 'block';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Authorize Session';
+      }
+    };
+
+    function launchDashboard() {
+      const s = $('login-screen');
+      s.style.opacity = '0';
+      setTimeout(() => { s.classList.add('hidden'); }, 500);
+      $('dashboard').classList.add('active');
+      if (currentUser) {
+        $('user-name').textContent = currentUser.fullName || currentUser.email || 'Agent';
+        $('user-role').textContent = currentUser.role || 'Operator';
+        $('user-avatar').textContent = ($('user-name').textContent[0] || 'A').toUpperCase();
+      }
+      loadCameras();
+      connectAlerts();
+      startClock();
+    }
+
+    $('btn-logout').onclick = () => {
+      localStorage.removeItem('sentinel_token');
+      location.reload();
+    };
+
+    // ── CLOCKS ──
+    function startClock() {
+      setInterval(() => {
+        const t = new Date().toLocaleTimeString();
+        const el = $('feed-time');
+        if (el) el.textContent = t;
+      }, 1000);
+    }
+
+    // ── CAMERAS ──
+    async function loadCameras() {
+      try {
+        const res = await fetch(`${API}/cameras`, { headers: { Authorization: `Bearer ${token}` } });
+        if (!res.ok) return;
+        const cams = await res.json();
+
+        const sel = $('camera-select');
+        sel.innerHTML = '<option value="">Select Camera Feed...</option>';
+        $('preview-strip').innerHTML = '';
+
+        const mgmtList = $('camera-mgmt-list');
+        if (mgmtList) mgmtList.innerHTML = '';
+
+        cams.forEach(c => {
+          const opt = document.createElement('option');
+          opt.value = c.id;
+          opt.textContent = `${c.name} (${c.location || 'Unknown'})`;
+          sel.appendChild(opt);
+
+          addPreviewThumb(c);
+
+          // Add to MGMT list table
+          if (mgmtList) {
+            const tr = document.createElement('tr');
+            tr.style.borderBottom = '1px solid var(--border)';
+            tr.innerHTML = `
+              <td style="padding: 16px 20px;">
+                <div style="font-weight:700;">${c.name}</div>
+                <div style="font-size:10px; color:var(--text-muted);">${c.id}</div>
+              </td>
+              <td style="padding: 16px 20px; font-family: 'JetBrains Mono';">${c.ip}</td>
+              <td style="padding: 16px 20px;">${c.location}</td>
+              <td style="padding: 16px 20px;">
+                <span style="display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:12px; font-size:10px; font-weight:700; background: ${c.status === 'active' ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)'}; color: ${c.status === 'active' ? 'var(--success)' : 'var(--danger)'}">
+                  <span style="width:6px; height:6px; border-radius:50%; background:currentColor;"></span>
+                  ${c.status.toUpperCase()}
+                </span>
+              </td>
+              <td style="padding: 16px 20px; text-align: right;">
+                <button class="nav-icon-btn" onclick="openEditCamera('${c.id}')" style="display:inline-flex; width:30px; height:30px; font-size:12px; margin-left:4px;">✏️</button>
+                <button class="nav-icon-btn danger" onclick="deleteCamera('${c.id}')" style="display:inline-flex; width:30px; height:30px; font-size:12px; margin-left:4px;">🗑️</button>
+              </td>
+            `;
+            mgmtList.appendChild(tr);
+          }
+        });
+
+        if (cams.length === 0) {
+          if ($('camera-mgmt-empty')) $('camera-mgmt-empty').style.display = 'flex';
+        } else {
+          if ($('camera-mgmt-empty')) $('camera-mgmt-empty').style.display = 'none';
+        }
+
+      } catch (e) { console.error("Load cams failed", e); }
+    }
+
+    function addPreviewThumb(cam) {
+      const div = document.createElement('div');
+      div.className = 'preview-thumb';
+      div.dataset.id = cam.id;
+      const img = document.createElement('img');
+      img.alt = cam.name;
+      const label = document.createElement('div');
+      label.className = 'preview-label';
+      label.textContent = cam.name || cam.id;
+      const off = document.createElement('div');
+      off.className = 'preview-offline';
+      off.innerHTML = '<span>OFFLINE</span>';
+      div.appendChild(img);
+      div.appendChild(label);
+      div.appendChild(off);
+      div.onclick = () => {
+        $('camera-select').value = cam.id;
+        $('camera-select').dispatchEvent(new Event('change'));
+      };
+
+      $('preview-strip').appendChild(div);
+      prevStateMap[cam.id] = { img, div, lastTime: 0 };
+      connectPreview(cam.id);
+    }
+
+    // ── CAMERA MGMT LOGIC ──
+    const camMgmtModal = $('camera-mgmt-modal');
+    if ($('btn-camera-mgmt')) {
+      $('btn-camera-mgmt').onclick = () => {
+        camMgmtModal.classList.add('open');
+        loadCameras();
+      };
+    }
+    if ($('camera-mgmt-close')) $('camera-mgmt-close').onclick = () => camMgmtModal.classList.remove('open');
+
+    const camFormModal = $('camera-form-modal');
+    if ($('cam-form-close')) $('cam-form-close').onclick = () => camFormModal.classList.remove('open');
+    if ($('cam-form-cancel')) $('cam-form-cancel').onclick = () => camFormModal.classList.remove('open');
+
+    if ($('btn-add-camera')) {
+      $('btn-add-camera').onclick = () => {
+        $('cam-form-title').textContent = "Register New Camera";
+        $('cam-form').reset();
+        $('cam-id').value = "";
+        $('cam-form-error').textContent = "";
+        camFormModal.classList.add('open');
+      };
+    }
+
+    window.openEditCamera = async (id) => {
+      try {
+        const res = await fetch(`${API}/cameras/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+        const c = await res.json();
+        if (!res.ok) throw new Error(c.detail || "Failed to fetch camera");
+
+        $('cam-form-title').textContent = "Update Camera Infrastructure";
+        $('cam-id').value = c.id;
+        $('cam-name').value = c.name;
+        $('cam-ip').value = c.ip;
+        $('cam-brand').value = c.brand || 'generic';
+        $('cam-user').value = c.username || '';
+        $('cam-pass').value = c.password || '';
+        $('cam-location').value = c.location || '';
+        $('cam-port').value = c.rtsp_port || 554;
+        $('cam-res').value = c.resolution || '1920x1080';
+        $('cam-fps').value = c.fps || 15;
+        $('cam-url').value = c.streamUrl || '';
+
+        $('cam-form-error').textContent = "";
+        camFormModal.classList.add('open');
+      } catch (e) {
+        alert(e.message);
+      }
+    };
+
+    window.deleteCamera = async (id) => {
+      if (!confirm("Are you sure you want to decommission this camera node? This will stop all active AI processing on this channel.")) return;
+      try {
+        const res = await fetch(`${API}/cameras/${id}`, {
+          method: 'DELETE',
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        if (!res.ok) {
+          const d = await res.json();
+          throw new Error(d.detail || "Delete failed");
+        }
+        loadCameras();
+      } catch (e) {
+        alert(e.message);
+      }
+    };
+
+    if ($('cam-form-submit')) {
+      $('cam-form-submit').onclick = async () => {
+        const id = $('cam-id').value;
+        const isEdit = !!id;
+        const btn = $('cam-form-submit');
+        const err = $('cam-form-error');
+
+        const payload = {
+          name: $('cam-name').value,
+          location: $('cam-location').value,
+          ip: $('cam-ip').value,
+          username: $('cam-user').value,
+          password: $('cam-pass').value,
+          cameraNumber: id ? undefined : Math.floor(Math.random() * 9000) + 1000,
+          rtspPort: parseInt($('cam-port').value) || 554,
+          resolution: $('cam-res').value || "1920x1080",
+          fps: parseInt($('cam-fps').value) || 15,
+          brand: $('cam-brand').value,
+          streamUrl: $('cam-url').value || null,
+          lastSeen: "Just now"
+        };
+
+        btn.disabled = true;
+        btn.textContent = "Processing...";
+        err.textContent = "";
+
+        try {
+          const url = isEdit ? `${API}/cameras/${id}` : `${API}/cameras`;
+          const res = await fetch(url, {
+            method: isEdit ? 'PUT' : 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify(payload)
+          });
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.detail || "Operation failed");
+
+          camFormModal.classList.remove('open');
+          loadCameras();
+        } catch (e) {
+          err.textContent = e.message;
+        } finally {
+          btn.disabled = false;
+          btn.textContent = "Save Camera";
+        }
+      };
+    }
+
+    function connectPreview(id) {
+      if (prevWsMap[id]) return;
+      const ws = new WebSocket(`${WS}/${id}`);
+      ws.binaryType = 'blob';
+      ws.onmessage = e => {
+        if (!(e.data instanceof Blob)) return;
+        const url = URL.createObjectURL(e.data);
+        const s = prevStateMap[id];
+        if (s) { if (s.url) URL.revokeObjectURL(s.url); s.url = url; s.img.src = url; s.lastTime = Date.now(); s.div.classList.remove('stalled'); }
+        if (activeCamId === id && (!mainWs || mainWs.readyState !== 1)) showFrame(url);
+      };
+      ws.onclose = () => { const s = prevStateMap[id]; if (s) s.div.classList.add('stalled'); delete prevWsMap[id]; setTimeout(() => connectPreview(id), 5000); };
+      prevWsMap[id] = ws;
+    }
+
+    function showFrame(url) {
+      const img = $('live-img');
+      img.src = url;
+      img.style.opacity = '1';
+      $('feed-spinner').style.display = 'none';
+      $('no-signal').style.display = 'none';
+      $('live-badge').style.display = 'inline-flex';
+    }
+
+    function connectMainStream(id) {
+      if (mainWs) mainWs.close();
+      $('feed-cam-name').textContent = $('camera-select').options[$('camera-select').selectedIndex]?.text || '';
+      setStatus('yellow', 'Connecting...');
+      $('feed-spinner').style.display = 'flex';
+      $('live-badge').style.display = 'none';
+      mainWs = new WebSocket(`${WS}/${id}`);
+      mainWs.binaryType = 'blob';
+      mainWs.onopen = () => setStatus('brand', 'Live');
+      mainWs.onmessage = e => { if (e.data instanceof Blob) showFrame(URL.createObjectURL(e.data)); };
+      mainWs.onclose = () => { setStatus('red', 'Reconnecting...'); setTimeout(() => { if (activeCamId === id) connectMainStream(id); }, 3000); };
+      // Update preview active highlight
+      document.querySelectorAll('.preview-thumb').forEach(d => d.classList.toggle('active-cam', d.dataset.id === id));
+    }
+
+    function setStatus(color, text) {
+      const dot = $('status-dot');
+      const colors = { brand: '#3b82f6', yellow: '#f59e0b', red: '#ef4444', gray: '#64748b' };
+      dot.style.background = colors[color] || colors.gray;
+      $('status-text').textContent = text;
+    }
+
+    $('camera-select').onchange = e => {
+      activeCamId = e.target.value;
+      if (activeCamId) {
+        connectMainStream(activeCamId);
+        $('ptz-controls').style.display = 'flex';
+      }
+      else {
+        if (mainWs) mainWs.close();
+        $('live-img').style.opacity = '0';
+        $('feed-spinner').style.display = 'none';
+        $('no-signal').style.display = 'flex';
+        $('live-badge').style.display = 'none';
+        $('feed-cam-name').textContent = '';
+        setStatus('gray', '');
+        $('ptz-controls').style.display = 'none';
+      }
+    };
+
+    // ── ALERTS WS ──
+    function connectAlerts() {
+      if (alertWs) alertWs.close();
+      alertWs = new WebSocket('ws://localhost:8000/ws/alerts');
+      alertWs.onmessage = e => {
+        if (!e.data || e.data === 'ping') return;
+        try {
+          const msg = JSON.parse(e.data);
+          if (msg.type === 'new_alert') onAlert(msg.data);
+          else if (msg.type === 'new_notification') onNotif(msg.data);
+        } catch { }
+      };
+      alertWs.onclose = () => setTimeout(connectAlerts, 5000);
+    }
+
+    function onAlert(data) {
+      $('alert-empty').style.display = 'none';
+      const log = $('alert-log');
+      const t = (data.case_type || 'detection').toLowerCase();
+      const typeClass = t.includes('criminal') ? 'type-criminal' : t.includes('missing') ? 'type-missing' : t.includes('weapon') ? 'type-weapon' : t.includes('plate') ? 'type-plate' : '';
+      const clr = typeClass === 'type-criminal' ? '#ef4444' : typeClass === 'type-missing' ? '#3b82f6' : typeClass === 'type-weapon' ? '#f59e0b' : '#a855f7';
+      const el = document.createElement('div');
+      el.className = `alert-entry ${typeClass}`;
+      el.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+      <span class="alert-type" style="color:${clr}">${t.replace('_', ' ')}</span>
+      <span style="font-size:9px;font-family:'JetBrains Mono',monospace;color:var(--text-dim)">${new Date().toLocaleTimeString()}</span>
+    </div>
+    <div class="alert-name">${data.name || 'Unknown'}</div>
+    <div class="alert-meta"><span>📷 ${data.camera_id || data.camera || 'Unknown'}</span><span style="color:${clr}">${data.confidence ? Math.round(data.confidence) + '%' : ''}</span></div>
+  `;
+      log.insertBefore(el, log.firstChild);
+      flashFeed();
+      playAlert();
+    }
+
+    function onNotif(data) {
+      $('notif-empty').style.display = 'none';
+      unread++;
+      const badge = $('notif-badge');
+      badge.textContent = unread;
+      badge.style.display = 'flex';
+      const el = document.createElement('div');
+      el.className = 'notif-entry';
+      el.innerHTML = `
+    <div class="notif-header">
+      <div class="notif-icon">📢</div>
+      <div class="notif-title">${data.title || 'Alert'}</div>
+    </div>
+    <div class="notif-msg">${data.message || ''}</div>
+    <div class="notif-time">${new Date().toLocaleTimeString()}</div>
+  `;
+      $('notif-list').insertBefore(el, $('notif-list').firstChild);
+    }
+
+    function flashFeed() {
+      const el = $('primary-feed');
+      el.classList.remove('alert-flash');
+      void el.offsetWidth;
+      el.classList.add('alert-flash');
+      try { $('alert-audio').currentTime = 0; $('alert-audio').play(); } catch { }
+    }
+
+    function playAlert() {
+      try { const a = $('alert-audio'); a.currentTime = 0; a.play(); } catch { }
+    }
+
+    // ── NOTIFICATION BADGE ──
+    $('btn-notif').onclick = () => {
+      // Switch to notif tab
+      document.querySelectorAll('.sidebar-tab')[1].click();
+      unread = 0;
+      $('notif-badge').style.display = 'none';
+    };
+
+    // ── CLEAR ──
+    $('clear-alerts').onclick = () => {
+      $('alert-log').innerHTML = '';
+      const em = document.createElement('div');
+      em.className = 'empty-state';
+      em.id = 'alert-empty';
+      em.innerHTML = '<div class="es-icon">📡</div><p>Monitoring active channels.<br>Detections will appear here.</p>';
+      $('alert-log').appendChild(em);
+    };
+    $('clear-notifs').onclick = () => {
+      $('notif-list').innerHTML = '';
+      const em = document.createElement('div');
+      em.className = 'empty-state';
+      em.id = 'notif-empty';
+      em.innerHTML = '<div class="es-icon">🔕</div><p>No new notifications.</p>';
+      $('notif-list').appendChild(em);
+    };
+
+    // ── REGISTER MODAL ──
+    function openRegister(type) {
+      $('reg-type').value = type;
+      $('modal-title').textContent = type === 'criminal' ? '🚔 Register Criminal' : '🔍 Register Missing Person';
+      $('reg-form').reset();
+      $('photo-thumbs').innerHTML = '';
+      $('file-count').textContent = 'At least 5 clear frontal photos required';
+      regFiles = []; profileIdx = 0;
+      const msg = $('form-msg');
+      msg.style.display = 'none';
+      $('reg-submit').disabled = false;
+      $('register-modal').classList.add('open');
+    }
+
+    $('btn-reg-criminal').onclick = () => openRegister('criminal');
+    $('btn-reg-missing').onclick = () => openRegister('missing');
+    $('modal-close').onclick = $('modal-cancel').onclick = () => $('register-modal').classList.remove('open');
+
+    $('file-input').onchange = e => {
+      regFiles = Array.from(e.target.files);
+      $('file-count').textContent = `${regFiles.length} file(s) selected — click to choose profile photo`;
+      const thumbs = $('photo-thumbs');
+      thumbs.innerHTML = '';
+      regFiles.forEach((f, i) => {
+        const r = new FileReader();
+        r.onload = re => {
+          const d = document.createElement('div');
+          d.className = `photo-thumb ${i === profileIdx ? 'selected' : ''}`;
+          d.innerHTML = `<img src="${re.target.result}">`;
+          d.onclick = () => { profileIdx = i; document.querySelectorAll('.photo-thumb').forEach((t, j) => t.classList.toggle('selected', i === j)); };
+          thumbs.appendChild(d);
+        };
+        r.readAsDataURL(f);
+      });
+    };
+
+    $('reg-submit').onclick = async () => {
+      const msg = $('form-msg');
+      if (regFiles.length < 5) {
+        msg.textContent = '⚠ At least 5 face photos are required.';
+        msg.className = 'form-msg error';
+        msg.style.display = 'block';
+        return;
+      }
+      $('reg-submit').disabled = true;
+      msg.textContent = 'Uploading...';
+      msg.className = 'form-msg';
+      msg.style.display = 'block';
+
+      const type = $('reg-type').value;
+      const fd = new FormData($('reg-form'));
+      fd.delete('files');
+      regFiles.forEach(f => fd.append('files', f));
+      fd.set('profile_idx', profileIdx);
+
+      try {
+        const endpoint = type === 'criminal' ? `${API}/criminal/register/criminal` : `${API}/criminal/register/missing`;
+        const res = await fetch(endpoint, { method: 'POST', body: fd });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Registration failed');
+        msg.textContent = `✓ ${data.name} registered successfully (ID: ${data.id?.slice(0, 8)}...)`;
+        msg.className = 'form-msg success';
+        $('reg-submit').disabled = false;
+        setTimeout(() => $('register-modal').classList.remove('open'), 3000);
+      } catch (ex) {
+        msg.textContent = `✕ ${ex.message}`;
+        msg.className = 'form-msg error';
+        $('reg-submit').disabled = false;
+      }
+    };
+
+    // ── PHOTO RECOGNITION ──
+    async function triggerPhotoSearch() {
+      const inp = document.createElement('input');
+      inp.type = 'file'; inp.accept = 'image/*';
+      inp.onchange = async () => {
+        const file = inp.files[0];
+        if (!file) return;
+        $('recognition-modal').classList.add('open');
+        $('recog-empty').style.display = 'none';
+        $('recog-loading').style.display = 'flex';
+        $('recog-result').style.display = 'none';
+        const fd = new FormData();
+        fd.append('file', file);
+        try {
+          const res = await fetch(`${API}/recognize/photo`, { method: 'POST', headers: { Authorization: `Bearer ${token}` }, body: fd });
+          const data = await res.json();
+          $('recog-loading').style.display = 'none';
+          $('recog-result').style.display = 'block';
+          if (data.annotated_image) $('recog-img').src = `data:image/jpeg;base64,${data.annotated_image}`;
+          const list = $('recog-list');
+          list.innerHTML = '';
+          if (data.recognized_faces?.length) {
+            $('recog-none').style.display = 'none';
+            data.recognized_faces.forEach(f => {
+              const el = document.createElement('div');
+              el.className = 'result-item';
+              el.innerHTML = `<div><div class="result-name">${f.name}</div><div class="result-type">${f.type || 'unknown'}</div></div><div class="result-conf">${Math.round((f.confidence || 0) * 100)}%</div>`;
+              list.appendChild(el);
+            });
+          } else {
+            $('recog-none').style.display = 'flex';
+          }
+        } catch { $('recog-loading').style.display = 'none'; $('recog-empty').style.display = 'flex'; }
+      };
+      inp.click();
+    }
+
+    $('btn-search-photo').onclick = triggerPhotoSearch;
+    $('recog-close').onclick = () => $('recognition-modal').classList.remove('open');
+
+    // ── RECORDED VIDEO SEARCH ──
+    const vsModal = $('video-search-modal');
+    $('btn-video-search').onclick = () => vsModal.classList.add('open');
+    $('video-search-close').onclick = $('video-search-cancel').onclick = () => vsModal.classList.remove('open');
+
+    let vsPollTimer = null;
+    $('vs-start-btn').onclick = async () => {
+      const path = document.getElementById('vs-path').value;
+      const color = document.getElementById('vs-color').value;
+      if (!path) return alert("Please enter a video path!");
+
+      $('vs-start-btn').disabled = true;
+      $('vs-snapshots').innerHTML = '';
+      $('vs-status-panel').style.display = 'block';
+      $('vs-status-text').innerText = "Starting engine...";
+      $('vs-matches').innerText = "0 Matches Found";
+      $('vs-progress').style.animation = "pulse 1.5s infinite";
+      $('vs-progress').style.width = "30%";
+
+      try {
+        const res = await fetch(`${API}/video-search/start`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ video_path: path, target_color: color })
+        });
+        const data = await res.json();
+        if (data.status === "started") {
+          if (vsPollTimer) clearInterval(vsPollTimer);
+          vsPollTimer = setInterval(() => checkVsStatus(data.job_id), 3000);
+        } else {
+          alert(data.detail || "Failed to start");
+          $('vs-start-btn').disabled = false;
+        }
+      } catch (e) {
+        alert(e.message);
+        $('vs-start-btn').disabled = false;
+      }
+    };
+
+    async function checkVsStatus(jobId) {
+      try {
+        const res = await fetch(`${API}/video-search/status/${jobId}`);
+        const job = await res.json();
+
+        $('vs-matches').innerText = `${job.matches} Matches Found`;
+        $('vs-status-text').innerText = job.status === 'processing' ? 'Scanning Video (5x Speed)...' : job.status;
+
+        let html = '';
+        if (job.images && job.images.length > 0) {
+          job.images.forEach(imgUrl => {
+            html += `<div style="border: 1px solid var(--border); border-radius: 8px; overflow:hidden;">
+                              <a href="${imgUrl}" target="_blank">
+                                <img src="${imgUrl}" style="width:100%; height:140px; object-fit: cover; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                              </a>
+                            </div>`;
+          });
+        }
+        $('vs-snapshots').innerHTML = html;
+
+        if (job.status === "completed" || job.status === "failed") {
+          clearInterval(vsPollTimer);
+          $('vs-start-btn').disabled = false;
+          $('vs-progress').style.animation = "none";
+          $('vs-progress').style.width = "100%";
+          $('vs-progress').style.background = job.status === "failed" ? "var(--danger)" : "var(--success)";
+          if (job.status === "completed") $('vs-status-text').innerText = "Scan Complete!";
+        }
+      } catch (e) { console.error(e); }
+    }
+
+    // ── AUTO-LOGIN CHECK ──
+    if (token) {
+      fetch(`${API_V1}/auth/me`, { headers: { Authorization: `Bearer ${token}` } })
+        .then(r => r.ok ? r.json() : Promise.reject())
+        .then(u => { currentUser = u; launchDashboard(); })
+        .catch(() => { localStorage.removeItem('sentinel_token'); token = null; });
+    }
+  </script>
+</body>
+
+</html>

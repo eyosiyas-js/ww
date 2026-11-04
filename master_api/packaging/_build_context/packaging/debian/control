@@ -1,0 +1,11 @@
+Package: cims
+Version: __VERSION__
+Section: web
+Priority: optional
+Architecture: amd64
+Maintainer: CIMS Development Team <dev@cims.local>
+Depends: postgresql, nginx, adduser
+Description: CIMS - Centralized Intelligence Management System
+ Full-stack surveillance and detection management platform.
+ Includes compiled backend API server and pre-built web frontend.
+ Backend runs as a systemd service; frontend is served by nginx.

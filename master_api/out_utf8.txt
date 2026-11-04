@@ -1,0 +1,389 @@
+python : C:\Users\User\A
+ppData\Roaming\Python\Py
+thon313\site-packages\py
+dantic\_internal\_config
+.py:383: UserWarning: 
+Valid config keys have 
+changed in V2:
+At line:1 char:1
++ python test_weapon.py 
+> test_out.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo      
+        : NotSpecified: 
+(C:\    Users\User\A... 
+change    d in 
+V2::String) [], R    
+emoteException
+    + 
+FullyQualifiedErrorI    
+d : NativeCommandError
+ 
+* 'orm_mode' has been 
+renamed to 
+'from_attributes'
+  
+warnings.warn(message, 
+UserWarning)
+Traceback (most recent 
+call last):
+  File "C:\Users\User\Do
+cuments\CIMS\Barsi\backe
+nd1\backend\test_weapon.
+py", line 28, in 
+<module>
+    response = client.po
+st('/api/v1/weapon-detec
+tions/simulate', 
+data={'weapon_type': 
+'Handgun', 
+'confidence': '0.9', 
+'camera_id': 
+'cam-org-campus-sec-0'})
+  File "C:\Users\User\Ap
+pData\Roaming\Python\Pyt
+hon313\site-packages\sta
+rlette\testclient.py", 
+line 546, in post
+    return super().post(
+           ~~~~~~~~~~~~^
+        url,
+        ^^^^
+    ...<10 lines>...
+        
+extensions=extensions,
+        
+^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\User\Ap
+pData\Roaming\Python\Pyt
+hon313\site-packages\htt
+px\_client.py", line 
+1144, in post
+    return self.request(
+           ~~~~~~~~~~~~^
+        "POST",
+        ^^^^^^^
+    ...<11 lines>...
+        
+extensions=extensions,
+        
+^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\User\Ap
+pData\Roaming\Python\Pyt
+hon313\site-packages\sta
+rlette\testclient.py", 
+line 445, in request
+    return 
+super().request(
+           
+~~~~~~~~~~~~~~~^
+        method,
+        ^^^^^^^
+    ...<11 lines>...
+        
+extensions=extensions,
+        
+^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\User\Ap
+pData\Roaming\Python\Pyt
+hon313\site-packages\htt
+px\_client.py", line 
+825, in request
+    return 
+self.send(request, 
+auth=auth, follow_redire
+cts=follow_redirects)
+           ~~~~~~~~~^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^
+^^^
+  File "C:\Users\User\Ap
+pData\Roaming\Python\Pyt
+hon313\site-packages\htt
+px\_client.py", line 
+914, in send
+    response = self._sen
+d_handling_auth(
+        request,
+    ...<2 lines>...
+        history=[],
+    )
+  File "C:\Users\User\Ap
+pData\Roaming\Python\Pyt
+hon313\site-packages\htt
+px\_client.py", line 
+942, in 
+_send_handling_auth
+    response = self._sen
+d_handling_redirects(
+        request,
+        follow_redirects
+=follow_redirects,
+        history=history,
+    )
+  File "C:\Users\User\Ap
+pData\Roaming\Python\Pyt
+hon313\site-packages\htt
+px\_client.py", line 
+979, in 
+_send_handling_redirects
+    response = self._sen
+d_single_request(request
+)
+  File "C:\Users\User\Ap
+pData\Roaming\Python\Pyt
+hon313\site-packages\htt
+px\_client.py", line 
+1014, in 
+_send_single_request
+    response = transport
+.handle_request(request)
+  File "C:\Users\User\Ap
+pData\Roaming\Python\Pyt
+hon313\site-packages\sta
+rlette\testclient.py", 
+line 348, in 
+handle_request
+    raise exc
+  File "C:\Users\User\Ap
+pData\Roaming\Python\Pyt
+hon313\site-packages\sta
+rlette\testclient.py", 
+line 345, in 
+handle_request
+    
+portal.call(self.app, 
+scope, receive, send)
+    ~~~~~~~~~~~^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\Ap
+pData\Roaming\Python\Pyt
+hon313\site-packages\any
+io\from_thread.py", 
+line 334, in call
+    return 
+cast(T_Retval, self.star
+t_task_soon(func, 
+*args).result())
+                        
+  ~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~^^
+  File "C:\Python313\Lib
+\concurrent\futures\_bas
+e.py", line 456, in 
+result
+    return 
+self.__get_result()
+           
+~~~~~~~~~~~~~~~~~^^
+  File "C:\Python313\Lib
+\concurrent\futures\_bas
+e.py", line 401, in 
+__get_result
+    raise 
+self._exception
+  File "C:\Users\User\Ap
+pData\Roaming\Python\Pyt
+hon313\site-packages\any
+io\from_thread.py", 
+line 259, in _call_func
+    retval = await 
+retval_or_awaitable
+             ^^^^^^^^^^^
+^^^^^^^^^^^^^^
+  File "C:\Users\User\Ap
+pData\Roaming\Python\Pyt
+hon313\site-packages\fas
+tapi\applications.py", 
+line 1135, in __call__
+    await 
+super().__call__(scope, 
+receive, send)
+  File "C:\Users\User\Ap
+pData\Roaming\Python\Pyt
+hon313\site-packages\sta
+rlette\applications.py",
+ line 107, in __call__
+    await self.middlewar
+e_stack(scope, receive, 
+send)
+  File "C:\Users\User\Ap
+pData\Roaming\Python\Pyt
+hon313\site-packages\sta
+rlette\middleware\errors
+.py", line 186, in 
+__call__
+    raise exc
+  File "C:\Users\User\Ap
+pData\Roaming\Python\Pyt
+hon313\site-packages\sta
+rlette\middleware\errors
+.py", line 164, in 
+__call__
+    await 
+self.app(scope, 
+receive, _send)
+  File "C:\Users\User\Ap
+pData\Roaming\Python\Pyt
+hon313\site-packages\sta
+rlette\middleware\cors.p
+y", line 85, in __call__
+    await 
+self.app(scope, 
+receive, send)
+  File "C:\Users\User\Ap
+pData\Roaming\Python\Pyt
+hon313\site-packages\sta
+rlette\middleware\except
+ions.py", line 63, in 
+__call__
+    await wrap_app_handl
+ing_exceptions(self.app,
+ conn)(scope, receive, 
+send)
+  File "C:\Users\User\Ap
+pData\Roaming\Python\Pyt
+hon313\site-packages\sta
+rlette\_exception_handle
+r.py", line 53, in 
+wrapped_app
+    raise exc
+  File "C:\Users\User\Ap
+pData\Roaming\Python\Pyt
+hon313\site-packages\sta
+rlette\_exception_handle
+r.py", line 42, in 
+wrapped_app
+    await app(scope, 
+receive, sender)
+  File "C:\Users\User\Ap
+pData\Roaming\Python\Pyt
+hon313\site-packages\fas
+tapi\middleware\asyncexi
+tstack.py", line 18, in 
+__call__
+    await 
+self.app(scope, 
+receive, send)
+  File "C:\Users\User\Ap
+pData\Roaming\Python\Pyt
+hon313\site-packages\sta
+rlette\routing.py", 
+line 716, in __call__
+    await self.middlewar
+e_stack(scope, receive, 
+send)
+  File "C:\Users\User\Ap
+pData\Roaming\Python\Pyt
+hon313\site-packages\sta
+rlette\routing.py", 
+line 736, in app
+    await 
+route.handle(scope, 
+receive, send)
+  File "C:\Users\User\Ap
+pData\Roaming\Python\Pyt
+hon313\site-packages\sta
+rlette\routing.py", 
+line 290, in handle
+    await 
+self.app(scope, 
+receive, send)
+  File "C:\Users\User\Ap
+pData\Roaming\Python\Pyt
+hon313\site-packages\fas
+tapi\routing.py", line 
+115, in app
+    await wrap_app_handl
+ing_exceptions(app, 
+request)(scope, 
+receive, send)
+  File "C:\Users\User\Ap
+pData\Roaming\Python\Pyt
+hon313\site-packages\sta
+rlette\_exception_handle
+r.py", line 53, in 
+wrapped_app
+    raise exc
+  File "C:\Users\User\Ap
+pData\Roaming\Python\Pyt
+hon313\site-packages\sta
+rlette\_exception_handle
+r.py", line 42, in 
+wrapped_app
+    await app(scope, 
+receive, sender)
+  File "C:\Users\User\Ap
+pData\Roaming\Python\Pyt
+hon313\site-packages\fas
+tapi\routing.py", line 
+101, in app
+    response = await 
+f(request)
+               
+^^^^^^^^^^^^^^^^
+  File "C:\Users\User\Ap
+pData\Roaming\Python\Pyt
+hon313\site-packages\fas
+tapi\routing.py", line 
+377, in app
+    content = await 
+serialize_response(
+              ^^^^^^^^^^
+^^^^^^^^^^^^^^^
+    ...<10 lines>...
+    )
+    ^
+  File "C:\Users\User\Ap
+pData\Roaming\Python\Pyt
+hon313\site-packages\fas
+tapi\routing.py", line 
+215, in 
+serialize_response
+    raise 
+ResponseValidationError(
+    ...<3 lines>...
+    )
+fastapi.exceptions.Respo
+nseValidationError: 3 
+validation errors:
+  {'type': 'missing', 
+'loc': ('response', 
+'weaponType'), 'msg': 
+'Field required', 
+'input': <app.models.ope
+rational.WeaponDetection
+ object at 
+0x000001D3F3F646E0>}
+  {'type': 'missing', 
+'loc': ('response', 
+'createdAt'), 'msg': 
+'Field required', 
+'input': <app.models.ope
+rational.WeaponDetection
+ object at 
+0x000001D3F3F646E0>}
+  {'type': 'missing', 
+'loc': ('response', 
+'updatedAt'), 'msg': 
+'Field required', 
+'input': <app.models.ope
+rational.WeaponDetection
+ object at 
+0x000001D3F3F646E0>}
+
+  File "C:\Users\User\Do
+cuments\CIMS\Barsi\backe
+nd1\backend\app\api\v1\e
+ndpoints\weapon_detectio
+ns.py", line 29, in simu
+late_weapon_detection
+    POST /api/v1/weapon-
+detections/simulate

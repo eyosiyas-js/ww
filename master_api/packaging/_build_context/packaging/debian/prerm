@@ -1,0 +1,13 @@
+#!/bin/bash
+set -e
+
+# Stop the service before removing
+if systemctl is-active --quiet cims-backend.service; then
+    systemctl stop cims-backend.service
+fi
+
+if systemctl is-enabled --quiet cims-backend.service 2>/dev/null; then
+    systemctl disable cims-backend.service
+fi
+
+echo "CIMS backend service stopped and disabled."

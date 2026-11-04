@@ -1,0 +1,56 @@
+Starting de-duplication for 5 names...
+
+Processing 'Elevator Bank Cam':
+  Keeping Primary: cam-org-campus-sec-4 (Current Org: org-campus-sec)
+  Scanning redundant: cam-org-city-watch-4 (Org: org-city-watch)
+    Migrated access for Org: org-city-watch -> Primary
+    Deleted old grant for cam-org-city-watch-4
+  Deleted redundant camera: cam-org-city-watch-4
+  Scanning redundant: cam-org-metro-police-4 (Org: org-metro-police)
+    Migrated access for Org: org-metro-police -> Primary
+    Deleted old grant for cam-org-metro-police-4
+  Deleted redundant camera: cam-org-metro-police-4
+
+Processing 'Main Lobby Cam':
+  Keeping Primary: cam-org-campus-sec-1 (Current Org: org-campus-sec)
+  Scanning redundant: cam-org-city-watch-1 (Org: org-city-watch)
+    Migrated access for Org: org-city-watch -> Primary
+    Deleted old grant for cam-org-city-watch-1
+  Deleted redundant camera: cam-org-city-watch-1
+  Scanning redundant: cam-org-metro-police-1 (Org: org-metro-police)
+    Migrated access for Org: org-metro-police -> Primary
+    Deleted old grant for cam-org-metro-police-1
+  Deleted redundant camera: cam-org-metro-police-1
+
+Processing 'North Gate Cam':
+  Keeping Primary: cam-org-campus-sec-0 (Current Org: org-campus-sec)
+  Scanning redundant: cam-org-city-watch-0 (Org: org-city-watch)
+    Migrated access for Org: org-city-watch -> Primary
+    Deleted old grant for cam-org-city-watch-0
+  Deleted redundant camera: cam-org-city-watch-0
+  Scanning redundant: cam-org-metro-police-0 (Org: org-metro-police)
+    Migrated access for Org: org-metro-police -> Primary
+    Deleted old grant for cam-org-metro-police-0
+    Migrated sub-grant for Org: comp-50e5a115-5001-4ad4-a717-2cbfe88c826d -> Primary
+    Deleted old grant for cam-org-metro-police-0
+  Deleted redundant camera: cam-org-metro-police-0
+
+Processing 'Parking A Cam':
+  Keeping Primary: cam-org-campus-sec-2 (Current Org: org-campus-sec)
+  Scanning redundant: cam-org-city-watch-2 (Org: org-city-watch)
+    Migrated access for Org: org-city-watch -> Primary
+    Deleted old grant for cam-org-city-watch-2
+  Deleted redundant camera: cam-org-city-watch-2
+  Scanning redundant: cam-org-metro-police-2 (Org: org-metro-police)
+    Migrated access for Org: org-metro-police -> Primary
+    Deleted old grant for cam-org-metro-police-2
+  Deleted redundant camera: cam-org-metro-police-2
+
+Processing 'South Corridor Cam':
+  Keeping Primary: cam-org-campus-sec-3 (Current Org: org-campus-sec)
+  Scanning redundant: cam-org-city-watch-3 (Org: org-city-watch)
+    Migrated access for Org: org-city-watch -> Primary
+    Deleted old grant for cam-org-city-watch-3
+  Deleted redundant camera: cam-org-city-watch-3
+
+De-duplication complete.

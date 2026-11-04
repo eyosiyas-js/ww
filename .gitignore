@@ -1,0 +1,103 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.pyd
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv/
+
+# Environment variables and secrets
+.env
+*.env
+.env.local
+.env.production
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
+logs/
+
+# ML Model files (large binary files)
+*.pt
+*.pth
+*.h5
+*.pkl
+*.onnx
+*.tflite
+*.bin
+*.xml
+weights/
+runs/
+
+# Generated runtime files
+static/detections/
+static/snapshots/
+
+# IDE
+.vscode/
+.idea/
+.cursor/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build output
+dist/
+build/
+.next/
+out/
+
+# Alembic
+alembic/versions/*.pyc
+
+# Legacy & excluded directories
+backend/
+backend1/
+mobile/
+master_api_old/
+dist_windows/
+
+# Environment files and archives
+.env*
+*.zip
+*.lnk
+*.code-workspace
+upload_frontend.py
+/seed_superadmin.py
+/seed_superadmin.sql

@@ -1,0 +1,49 @@
+﻿--- DETECTIONS ---
+Detection: det-org-metro-police-0, Org: org-metro-police, User: usr-org-metro-police-off-6
+Detection: det-org-metro-police-1, Org: org-metro-police, User: usr-org-metro-police-off-2
+Detection: det-org-metro-police-2, Org: org-metro-police, User: usr-org-metro-police-off-5
+Detection: det-org-metro-police-3, Org: org-metro-police, User: usr-org-metro-police-off-2
+Detection: det-org-metro-police-4, Org: org-metro-police, User: usr-org-metro-police-off-5
+Detection: det-org-metro-police-5, Org: org-metro-police, User: usr-org-metro-police-off-2
+Detection: det-org-metro-police-6, Org: org-metro-police, User: usr-org-metro-police-off-5
+Detection: det-org-metro-police-7, Org: org-metro-police, User: usr-org-metro-police-off-2
+Detection: det-org-metro-police-8, Org: org-metro-police, User: usr-org-metro-police-off-4
+Detection: det-org-metro-police-9, Org: org-metro-police, User: usr-org-metro-police-off-6
+
+--- USERS ---
+User: usr-super-admin, Email: admin@cims.com, Org: org-metro-police, Role: role-super-admin
+User: usr-org-metro-police-admin, Email: admin@metro-police.com, Org: org-metro-police, Role: role-admin
+User: usr-org-metro-police-off-0, Email: john.mcclane@metro-police.com, Org: org-metro-police, Role: role-operator
+User: usr-org-metro-police-off-1, Email: sarah.connor@metro-police.com, Org: org-metro-police, Role: role-operator
+User: usr-org-metro-police-off-2, Email: james.bond@metro-police.com, Org: org-metro-police, Role: role-operator
+User: usr-org-metro-police-off-3, Email: ellen.ripley@metro-police.com, Org: org-metro-police, Role: role-operator
+User: usr-org-metro-police-off-4, Email: rick.deckard@metro-police.com, Org: org-metro-police, Role: role-operator
+User: usr-org-metro-police-off-5, Email: clarice.starling@metro-police.com, Org: org-metro-police, Role: role-operator
+User: usr-org-metro-police-off-6, Email: martin.riggs@metro-police.com, Org: org-metro-police, Role: role-operator
+User: usr-org-metro-police-off-7, Email: alex.murphy@metro-police.com, Org: org-metro-police, Role: role-operator
+
+--- ROLES ---
+Role: Super Admin, Perms: ["*"]
+Role: Admin, Perms: ["users.manage", "cameras.manage", "reports.view"]
+Role: Operator, Perms: ["cameras.view", "detections.view", "cases.view", "cases.manage"]
+Role: Company Admin, Perms: ["*", "cameras.view", "detections.view", "notifications.view", "settings.view", "reports.view", "users.view", "cases.view", "cameras.manage", "detections.manage", "cases.manage", "users.manage", "reports.manage", "settings.manage", "notifications.manage"]
+Role: INSA ROLE, Perms: ["cameras.view", "detections.view", "cases.view", "cases.manage", "detections.manage", "cameras.manage", "notifications.manage", "notifications.view"]
+Role: Company Admin, Perms: ["*"]
+Role: NISS Role , Perms: ["cameras.view", "detections.view", "detections.manage", "cameras.manage", "cases.manage", "cases.view", "users.view", "users.manage", "reports.manage", "reports.view"]
+Role: Company Admin, Perms: ["*"]
+Role: userRole , Perms: ["detections.view", "detections.manage", "cases.view", "cases.manage", "cameras.view", "cameras.manage"]
+Role: Company Admin, Perms: ["*"]
+Role: Company Admin, Perms: ["*"]
+Role: Style, Perms: ["cameras.view", "detections.view", "detections.manage", "cameras.manage", "cases.manage", "users.manage", "reports.manage", "settings.manage", "notifications.manage", "notifications.view", "users.view", "cases.view", "reports.view", "settings.view"]
+
+--- CAMERAS ---
+Camera: cam-org-metro-police-0, Org: org-metro-police
+Camera: cam-org-metro-police-1, Org: org-metro-police
+Camera: cam-org-metro-police-2, Org: org-metro-police
+Camera: cam-org-metro-police-3, Org: org-metro-police
+Camera: cam-org-metro-police-4, Org: org-metro-police
+Camera: cam-org-city-watch-0, Org: org-city-watch
+Camera: cam-org-city-watch-1, Org: org-city-watch
+Camera: cam-org-city-watch-2, Org: org-city-watch
+Camera: cam-org-city-watch-3, Org: org-city-watch
+Camera: cam-org-city-watch-4, Org: org-city-watch

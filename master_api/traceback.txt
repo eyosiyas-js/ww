@@ -1,0 +1,133 @@
+﻿python : NoneType: None
+At line:1 char:1
++ python -c "import 
+traceback; from 
+sqlalchemy.orm import 
+configure_map ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~
+    + CategoryInfo          
+    : NotSpecified: (NoneT  
+  ype: None:String) [], R   
+ emoteException
+    + FullyQualifiedErrorId 
+    : NativeCommandError
+ 
+Traceback (most recent call 
+last):
+  File "C:\Users\User\AppDat
+a\Roaming\Python\Python313\s
+ite-packages\sqlalchemy\orm\
+mapper.py", line 2531, in 
+get_property
+    return self._props[key]
+           ~~~~~~~~~~~^^^^^
+KeyError: 'cases'
+
+The above exception was the 
+direct cause of the 
+following exception:
+
+Traceback (most recent call 
+last):
+  File "<string>", line 1, 
+in <module>
+    import traceback; from 
+sqlalchemy.orm import 
+configure_mappers; from 
+app.db.base import Base; tra
+ceback.print_exc(limit=None)
+; configure_mappers()
+                            
+                            
+                            
+                            
+                   
+~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\User\AppDat
+a\Roaming\Python\Python313\s
+ite-packages\sqlalchemy\orm\
+mapper.py", line 4196, in 
+configure_mappers
+    _configure_registries(_a
+ll_registries(), 
+cascade=True)
+    ~~~~~~~~~~~~~~~~~~~~~^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^
+  File "C:\Users\User\AppDat
+a\Roaming\Python\Python313\s
+ite-packages\sqlalchemy\orm\
+mapper.py", line 4227, in 
+_configure_registries
+    _do_configure_registries
+(registries, cascade)
+    ~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppDat
+a\Roaming\Python\Python313\s
+ite-packages\sqlalchemy\orm\
+mapper.py", line 4268, in 
+_do_configure_registries
+    mapper._post_configure_p
+roperties()
+    ~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~^^
+  File "C:\Users\User\AppDat
+a\Roaming\Python\Python313\s
+ite-packages\sqlalchemy\orm\
+mapper.py", line 2427, in 
+_post_configure_properties
+    prop.init()
+    ~~~~~~~~~^^
+  File "C:\Users\User\AppDat
+a\Roaming\Python\Python313\s
+ite-packages\sqlalchemy\orm\
+interfaces.py", line 595, 
+in init
+    self.do_init()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\User\AppDat
+a\Roaming\Python\Python313\s
+ite-packages\sqlalchemy\orm\
+relationships.py", line 
+1660, in do_init
+    self._generate_backref()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\User\AppDat
+a\Roaming\Python\Python313\s
+ite-packages\sqlalchemy\orm\
+relationships.py", line 
+2144, in _generate_backref
+    self._add_reverse_proper
+ty(self.back_populates)
+    ~~~~~~~~~~~~~~~~~~~~~~~~
+~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppDat
+a\Roaming\Python\Python313\s
+ite-packages\sqlalchemy\orm\
+relationships.py", line 
+1591, in 
+_add_reverse_property
+    other = self.mapper.get_
+property(key, 
+_configure_mappers=False)
+  File "C:\Users\User\AppDat
+a\Roaming\Python\Python313\s
+ite-packages\sqlalchemy\orm\
+mapper.py", line 2533, in 
+get_property
+    raise 
+sa_exc.InvalidRequestError(
+    ...<3 lines>...
+    ) from err
+sqlalchemy.exc.InvalidReques
+tError: Mapper 'Mapper[Detec
+tion(detection)]' has no 
+property 'cases'.  If this 
+property was indicated from 
+other mappers or configure 
+events, ensure 
+registry.configure() has 
+been called.

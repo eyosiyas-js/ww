@@ -1,0 +1,17 @@
+fastapi[all]
+sqlalchemy
+psycopg2-binary
+alembic
+python-jose[cryptography]
+passlib[bcrypt]
+python-multipart
+pydantic[email]
+uvicorn
+python-dotenv
+asyncpg
+databases
+insightface
+onnxruntime
+pgvector
+opencv-python-headless
+httpx

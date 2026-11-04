@@ -1,0 +1,47 @@
+#!/bin/bash
+set -e
+
+# ── Create system user ──────────────────────────────────────────────────────
+if ! id -u cims >/dev/null 2>&1; then
+    adduser --system --group --home /opt/cims --no-create-home --shell /usr/sbin/nologin cims
+    echo "Created system user: cims"
+fi
+
+# ── Set ownership & permissions ─────────────────────────────────────────────
+chown -R cims:cims /opt/cims
+chown -R cims:cims /etc/cims
+chmod 700 /opt/cims/uploads
+chmod 600 /etc/cims/cims.env
+
+# ── Enable nginx site ──────────────────────────────────────────────────────
+if [ -d /etc/nginx/sites-enabled ]; then
+    ln -sf /etc/nginx/sites-available/cims /etc/nginx/sites-enabled/cims
+    # Remove default site if it exists
+    rm -f /etc/nginx/sites-enabled/default
+fi
+
+# ── Reload systemd and enable the service ───────────────────────────────────
+systemctl daemon-reload
+systemctl enable cims-backend.service
+
+echo ""
+echo "╔══════════════════════════════════════════════════════════════╗"
+echo "║           CIMS has been installed successfully!             ║"
+echo "╠══════════════════════════════════════════════════════════════╣"
+echo "║                                                            ║"
+echo "║  NEXT STEPS:                                               ║"
+echo "║                                                            ║"
+echo "║  1. Configure the database connection:                     ║"
+echo "║     sudo nano /etc/cims/cims.env                           ║"
+echo "║                                                            ║"
+echo "║  2. Start the backend service:                             ║"
+echo "║     sudo systemctl start cims-backend                      ║"
+echo "║                                                            ║"
+echo "║  3. Restart nginx:                                         ║"
+echo "║     sudo systemctl restart nginx                           ║"
+echo "║                                                            ║"
+echo "║  4. Access the application:                                ║"
+echo "║     http://your-server-ip                                  ║"
+echo "║                                                            ║"
+echo "╚══════════════════════════════════════════════════════════════╝"
+echo ""

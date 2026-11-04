@@ -1,0 +1,62 @@
+﻿======================================================================
+  DISPATCH DIAGNOSTIC REPORT
+======================================================================
+
+--- 1. ORGANIZATIONS ---
+  ID: org-admin-main  |  Name: Main Administration  |  Type: None  |  Status: active
+  ID: comp-f5686e69-8379-4037-9bce-aa658ab27539  |  Name: INSA  |  Type: None  |  Status: active
+  ID: comp-9851e3c0-bd84-4c23-81bc-04282552bbeb  |  Name: EFP  |  Type: None  |  Status: active
+  ID: comp-66f1a93e-d62a-4817-a173-bb2e4d610ca9  |  Name: Traffic   |  Type: traffic_police  |  Status: active
+
+  -> Traffic Police orgs found: 1
+    - Traffic  (ID: comp-66f1a93e-d62a-4817-a173-bb2e4d610ca9, Status: active)
+
+--- 2. USERS IN TRAFFIC POLICE ORGS ---
+  Org 'Traffic ' has 2 users:
+    - Traffic  Admin (ID: usr-13f13acd-662c-4cfd-a78e-b72a1b3aad29, Role: Company Admin, Status: active)
+    - User (ID: usr-2255431615264, Role: Operator, Status: active)
+
+--- 3. OFFICER LOCATIONS (all rows) ---
+  Total OfficerLocation rows: 2
+  [OFFLINE/STALE] User: usr-super-admin  |  Org: org-admin-main  |  Online: True  |  Lat: 9.0  |  Lng: 38.0  |  Last Seen: 2026-04-15 11:26:41.140078
+      [WARN] STALE: last_seen is older than 5 minutes (cutoff: 2026-04-16 15:57:32.182201)
+  [OFFLINE/STALE] User: usr-2255431615264  |  Org: comp-66f1a93e-d62a-4817-a173-bb2e4d610ca9  |  Online: True  |  Lat: 9.046798560042104  |  Lng: 38.78833770202035  |  Last Seen: 2026-04-16 15:46:18.925830
+      [WARN] STALE: last_seen is older than 5 minutes (cutoff: 2026-04-16 15:57:32.182201)
+
+--- 4. CAMERAS (lat/lng & linked traffic company) ---
+  Camera: Main Entrance Camera (ID: cam-4c261426)  |  Lat: 9.0192  |  Lng: 38.7468  |  HasCoords: True  |  Owner Org: comp-9851e3c0-bd84-4c23-81bc-04282552bbeb  |  Linked Traffic: None
+  Camera: Parking Lot Exit (ID: cam-cb940588)  |  Lat: 9.00999284302376  |  Lng: 38.76981671803979  |  HasCoords: True  |  Owner Org: comp-9851e3c0-bd84-4c23-81bc-04282552bbeb  |  Linked Traffic: None
+
+--- 5. CAMERA ACCESS GRANTS ---
+  Camera: cam-4c261426  ->  Org: org-admin-main
+  Camera: cam-cb940588  ->  Org: org-admin-main
+  Camera: cam-cb940588  ->  Org: comp-f5686e69-8379-4037-9bce-aa658ab27539
+  Camera: cam-4c261426  ->  Org: comp-f5686e69-8379-4037-9bce-aa658ab27539
+  Camera: cam-4c261426  ->  Org: comp-9851e3c0-bd84-4c23-81bc-04282552bbeb
+  Camera: cam-cb940588  ->  Org: comp-9851e3c0-bd84-4c23-81bc-04282552bbeb
+  Camera: cam-4c261426  ->  Org: comp-66f1a93e-d62a-4817-a173-bb2e4d610ca9
+  Camera: cam-cb940588  ->  Org: comp-66f1a93e-d62a-4817-a173-bb2e4d610ca9
+
+--- 6. RECENT DETECTIONS (last 5) ---
+  ID: det-1943471227664...  |  Category: vehicle  |  AssignType: user  |  HandlingStatus: pending  |  AssignedCompany: None  |  Org: comp-66f1a93e-d62a-4817-a173-bb2e4d610ca9  |  EligibleForAssignment: True  |  AllowExternal: False
+  ID: det-2095330999376...  |  Category: criminal  |  AssignType: None  |  HandlingStatus: pending  |  AssignedCompany: comp-f5686e69-8379-4037-9bce-aa658ab27539  |  Org: comp-f5686e69-8379-4037-9bce-aa658ab27539  |  EligibleForAssignment: True  |  AllowExternal: None
+  ID: det-1928573815056...  |  Category: criminal  |  AssignType: None  |  HandlingStatus: pending  |  AssignedCompany: comp-f5686e69-8379-4037-9bce-aa658ab27539  |  Org: comp-f5686e69-8379-4037-9bce-aa658ab27539  |  EligibleForAssignment: True  |  AllowExternal: None
+  ID: det-2936773553008...  |  Category: criminal  |  AssignType: None  |  HandlingStatus: resolved  |  AssignedCompany: comp-f5686e69-8379-4037-9bce-aa658ab27539  |  Org: comp-9851e3c0-bd84-4c23-81bc-04282552bbeb  |  EligibleForAssignment: True  |  AllowExternal: None
+  ID: det-2936810919792...  |  Category: vehicle  |  AssignType: None  |  HandlingStatus: pending  |  AssignedCompany: comp-f5686e69-8379-4037-9bce-aa658ab27539  |  Org: comp-9851e3c0-bd84-4c23-81bc-04282552bbeb  |  EligibleForAssignment: True  |  AllowExternal: None
+
+--- 7. DETECTION ASSIGNMENTS (all) ---
+  Total assignments: 0
+
+--- 8. DISTANCE ANALYSIS ---
+
+  Camera 'Main Entrance Camera' (9.0192, 38.7468):
+    -> Officer usr-super-admin: 82.04 km  |  [FAIL] OUT OF RANGE
+    -> Officer usr-2255431615264: 5.50 km  |  [FAIL] OUT OF RANGE
+
+  Camera 'Parking Lot Exit' (9.00999284302376, 38.76981671803979):
+    -> Officer usr-super-admin: 84.55 km  |  [FAIL] OUT OF RANGE
+    -> Officer usr-2255431615264: 4.57 km  |  [WARN] IN RANGE (5km only)
+
+======================================================================
+  END OF DIAGNOSTIC REPORT
+======================================================================
